@@ -30,6 +30,10 @@ our $VERSION = '0.01';
 
 __PACKAGE__->config( name => 'CloudStenography' );
 
+__PACKAGE__->config->{static}->{ignore_extensions} = [
+    qw/tmpl tt tt2 xhtml/ 
+ ];
+
 # Start the application
 __PACKAGE__->setup();
 

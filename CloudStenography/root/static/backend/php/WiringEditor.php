@@ -6,7 +6,7 @@ class WiringEditor {
        'dbhost' => "localhost",
        'dbuser' => "root",
        'dbpass' => "",
-       'dbname' => "wireit"
+       'dbname' => "WireIt"
     );
     
     private $link = null;

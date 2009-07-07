@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<title>Cloud Stenography - Apache Pig Immersive Analytic Environment</title>
+	<title>WireIt - jsBox example</title>
 	<link rel="icon" href="../../res/favicon.ico" type="image/png" />
   <link rel="SHORTCUT ICON" href="../../res/favicon.ico" type="image/png" />
 
@@ -121,10 +121,11 @@ YAHOO.util.Event.onDOMReady( jsBox.init, jsBox, true);
 <body class="yui-skin-sam">
 
 	<div id="top">
-		<div class="logo"><img src="../../images/cloud.jpg" /></div>
+		<div class="logo">jsBox</a></div>
 		<div id="toolbar"></div>
 		<div class="topright">
-			<span><a href="http://cloudstenography.com">Cloud Stenography</a></span>
+			<span>Hello there !</span> | 
+			<a href="../..">back to WireIt</a>
 		</div>
 	</div>
 
@@ -145,26 +146,30 @@ YAHOO.util.Event.onDOMReady( jsBox.init, jsBox, true);
 	
 
 	<div id="helpPanel">
-	    <div class="hd">Welcome to Cloud Stenography</div>
+	    <div class="hd">Welcome to jsBox</div>
 	    <div class="bd" style="text-align: left;">
 	
-					<p>This is a prototype of an Apache Pig Graphical Editor</p>
+					<p>This is an advanced example of the WiringEditor from the <a href="http://javascript.neyric.com/wireit">WireIt library</a>.</p>
 					<br />
-	        <p style="font-weight: bold;">What this system does :</p>
+	        <p style="font-weight: bold;">What this example does :</p>
 					<ul style="margin-left: 20px;">
-						<li>* Define a Pig Script by visually creating a dataflow!</li>
-						<li>* Sample data to preview the script's results.</li>	
-						<li>* Execute the script on your server or Hadoop cluster.</li>
+						<li>* Define a visual language of 5 modules: input, output, jsBox, callback, comment</li>
+						<li>* Creates the "jsBox" container</li>	
+						<li>* Creates the "Composed" container</li>
+						<li>* Hack the WiringEditor to handle the composed modules</li>
+						<li>* Provide a small virtual machine for executing this language</li>
 					</ul>
 					<br />
 					<p style="font-weight: bold;">How to use it :</p>
 					<ul style="margin-left: 20px;">
-						<li>* Drag and drop operations from the command list to the working layer.</li>
-						<li>* Create a program by constructing a dataflow with commands: inputs, outputs</li>
+						<li>* Drag and drop modules from the Module list to the working layer.</li>
+						<li>* Create a module with inputs, outputs and jsBox modules (or load an existing one)</li>
 						<li>* Press the "Run" button to run the code within the same window</li>
 					</ul>
 					<br />
-					<!--<p>This code is based on, and is deeply appreciative of WireIt by Eric Abouaf</p>-->
+					<p><u>Warning:</u> Composed modules are shared anonymously. <br />Someone could change/delete your modules or create evil ones !</p>
+					<br />
+					<p>Sources: <a href="jsBox.js" target="_new">jsBox.js</a> and <a href="ExecutionFrame.js" target="_new">ExecutionFrame.js</a></p>
 		
 	    </div>
 	</div>

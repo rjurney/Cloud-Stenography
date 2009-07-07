@@ -1,11 +1,11 @@
 {
    "SMDVersion":"2.0",
-   "description": "JSON-RPC interface for the Cloud Stenography",
+   "description": "JSON-RPC interface for the WiringEditor",
    
    "envelope":"JSON-RPC-2.0",
    "transport":"POST",
    
-   "target":"http://localhost:3000/",
+   "target":"WiringEditor.php",
    
    "services": {
    

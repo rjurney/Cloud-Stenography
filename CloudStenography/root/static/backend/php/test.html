@@ -5,9 +5,9 @@
 
 	<link rel="stylesheet" type="text/css" href="../lib/yui/reset-fonts-grids/reset-fonts-grids.css"> 
 
-<script type="text/javascript" src="../../lib/yui/utilities/utilities.js"></script>
-<script type="text/javascript" src="../../lib/yui/json/json.js"></script>
-<script type="text/javascript" src="../../lib/yui-rpc.js"></script>
+<script type="text/javascript" src="../lib/yui/utilities/utilities.js"></script>
+<script type="text/javascript" src="../lib/yui/json/json.js"></script>
+<script type="text/javascript" src="../lib/yui-rpc.js"></script>
 
 <script>
 
@@ -16,11 +16,11 @@
 		var service = new YAHOO.rpc.Service("WiringEditor.smd",{
 				success: function() {
 					
-					this.saveWiring({name: "UnSuperNom de pipe !", working: YAHOO.lang.JSON.stringify({definition:"machin"}) }, {
+					/*this.saveWiring({name: "UnSuperNom de pipe !", working: YAHOO.lang.JSON.stringify({definition:"machin"}) }, {
 						success: function(result) {
 							console.log("result", result);
 						}
-					});
+					});*/
 					
 					/*this.listWirings({},{
 						success: function(result) {
