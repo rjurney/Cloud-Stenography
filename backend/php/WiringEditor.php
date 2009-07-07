@@ -5,8 +5,8 @@ class WiringEditor {
     private $dbData = array (
        'dbhost' => "localhost",
        'dbuser' => "root",
-       'dbpass' => "root",
-       'dbname' => "WireIt"
+       'dbpass' => "",
+       'dbname' => "cloudstenography"
     );
     
     private $link = null;
@@ -37,16 +37,16 @@ class WiringEditor {
     // variable needs to be in alphabetical order
     public function saveWiring($language, $name, $working) {
        
-    	$result = $this->query( sprintf("SELECT * from wirings where name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
+    	$result = $this->query( sprintf("SELECT * from language_words where name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
 
       if( mysql_num_rows($result) == 0) {
-    		$query = sprintf("INSERT INTO wirings (`name` ,`language`,`working`) VALUES ('%s','%s','%s');", 		
+    		$query = sprintf("INSERT INTO language_words (`name` ,`language`,`working`) VALUES ('%s','%s','%s');", 		
     							mysql_real_escape_string($name), 
     							mysql_real_escape_string($language),
     							mysql_real_escape_string($working) );
     	}
     	else {
-    		$query = sprintf("UPDATE wirings SET working='%s' where name='%s' AND language='%s';",
+    		$query = sprintf("UPDATE language_words SET working='%s' where name='%s' AND language='%s';",
     							mysql_real_escape_string($working),
     							mysql_real_escape_string($name),
     							mysql_real_escape_string($language) );
@@ -58,18 +58,18 @@ class WiringEditor {
     }
     
     public function listWirings($language) {
-         $query = sprintf("SELECT * from wirings WHERE `language`='%s'", mysql_real_escape_string($language) );
+         $query = sprintf("SELECT * from language_words WHERE `language`='%s'", mysql_real_escape_string($language) );
          $wirings = $this->queryToArray( $query );
          return $wirings;
     }
      
     public function loadWiring($language, $name) {
-       $wirings = $this->queryToArray( sprintf("SELECT * from wirings WHERE name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
+       $wirings = $this->queryToArray( sprintf("SELECT * from language_words WHERE name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
        return $wirings[0];
     }
       
     public function deleteWiring($language, $name) {
-      $this->query( sprintf("DELETE from wirings WHERE name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
+      $this->query( sprintf("DELETE from language_words WHERE name='%s' AND language='%s'", mysql_real_escape_string($name), mysql_real_escape_string($language)) );
       return true;
    }
        

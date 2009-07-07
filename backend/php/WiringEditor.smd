@@ -1,6 +1,6 @@
 {
    "SMDVersion":"2.0",
-   "description": "JSON-RPC interface for the WiringEditor",
+   "description": "JSON-RPC interface for the Cloud Stenography",
    
    "envelope":"JSON-RPC-2.0",
    "transport":"POST",

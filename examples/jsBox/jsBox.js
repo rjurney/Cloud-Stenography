@@ -4,7 +4,7 @@
 var jsBox = {
 
    language: {
-      languageName: "jsBox",
+      languageName: "Pig",
       smdUrl: '../../backend/php/WiringEditor.smd',
       propertiesFields: [{
          "type": "string",
@@ -52,7 +52,7 @@ var jsBox = {
             }]
          }
       },
-      
+
       {
          "name": "STORE",
          "container": {
@@ -106,7 +106,7 @@ var jsBox = {
             },
             {
                "name": "in",
-               "direction": [0, 1],
+               "direction": [0, -1],
                "offsetPosition": {
                   "left": 86,
                   "top": -15
@@ -116,321 +116,379 @@ var jsBox = {
       },
 
       {
-         "name": "comment",
+         "name": "JOIN",
          "container": {
             "xtype": "WireIt.FormContainer",
-            "title": "Comment",
-            "fields": [{
-               "type": "text",
-               "inputParams": {
-                  "label": "",
-                  "name": "comment",
+            "title": "Post",
+            "icon": "",
+
+            "fields": [
+
+            {
+               "type": "string",
+               "inputParams":
+               {
+                  "label": "COND A",
+                  "name": "cond_a",
                   "wirable": false
                }
-            }]
-         },
-         "value": {
-            "input": {
-               "type": "url",
-               "inputParams": {}
-            }
-         }
-      },
-      ]
-   },
+            },
 
-   /**
+            {
+                  "type": "string",
+                  "inputParams": {
+                     "label": "COND B",
+                     "name": "cond_b",
+                     "wirable": false
+                  }
+            }],
+
+                  "terminals": [{
+                     "name": "A",
+                     "direction": [0, -1],
+                     "offsetPosition": {
+                        "left": 40,
+                        "top": -15
+                     }
+                  },
+
+                  {
+                     "name": "B",
+                     "direction": [0, -1],
+                     "offsetPosition": {
+                        "left": 130,
+                        "top": -15
+                     }
+                  },
+
+                  {
+                     "name": "OUT",
+                     "direction": [0, 1],
+                     "offsetPosition": {
+                        "left": 100,
+                        "bottom": -15
+                     }
+                  }]
+               }
+            },
+
+            {
+               "name": "comment",
+               "container": {
+                  "xtype": "WireIt.FormContainer",
+                  "title": "Comment",
+                  "fields": [{
+                     "type": "text",
+                     "inputParams": {
+                        "label": "",
+                        "name": "comment",
+                        "wirable": false
+                     }
+                  }]
+               },
+               "value": {
+                  "input": {
+                     "type": "url",
+                     "inputParams": {}
+                  }
+               }
+            },
+
+            ]
+         },
+
+         /**
     * @method init
     * @static
     */
-   init: function() {
-      this.editor = new jsBox.WiringEditor(this.language);
-      this.editor.onHelp();
-   },
+         init: function() {
+            this.editor = new jsBox.WiringEditor(this.language);
+            this.editor.onHelp();
+         },
 
-   /**
+         /**
     * Execute the module in the "ExecutionFrame" virtual machine
     * @method run
     * @static
     */
-   run: function() {
-      var ef = new ExecutionFrame(this.editor.getValue());
-      ef.run();
-   }
+         run: function() {
+            var ef = new ExecutionFrame(this.editor.getValue());
+            ef.run();
+         }
 
-};
+      };
 
-/**
+      /**
  * The wiring editor is overriden to add a button "RUN" to the control bar
  */
-jsBox.WiringEditor = function(options) {
-   jsBox.WiringEditor.superclass.constructor.call(this, options);
-};
+      jsBox.WiringEditor = function(options) {
+         jsBox.WiringEditor.superclass.constructor.call(this, options);
+      };
 
-YAHOO.lang.extend(jsBox.WiringEditor, WireIt.WiringEditor, {
+      YAHOO.lang.extend(jsBox.WiringEditor, WireIt.WiringEditor, {
 
-   /**
+         /**
     * Update the module list right after loading the SMD
     */
-   onSMDsuccess: function() {
+         onSMDsuccess: function() {
 
-      this.service.listWirings({
-         language: this.options.languageName
-      },
-      {
-         success: function(result) {
-            this.pipes = result.result;
-            this.pipesByName = {};
-            this.renderLoadPanel();
-            this.updateLoadPanelList();
-            //this.loadPanel.show();
+            this.service.listWirings({
+               language: this.options.languageName
+            },
+            {
+               success: function(result) {
+                  this.pipes = result.result;
+                  this.pipesByName = {};
+                  this.renderLoadPanel();
+                  this.updateLoadPanelList();
+                  //this.loadPanel.show();
+               },
+               scope: this
+            });
          },
-         scope: this
-      });
-   },
 
-   /**
+         /**
     * Add the "run" button
     */
-   renderButtons: function() {
-      jsBox.WiringEditor.superclass.renderButtons.call(this);
-      var toolbar = YAHOO.util.Dom.get('toolbar');
-      var runButton = new YAHOO.widget.Button({
-         label: "Run",
-         id: "WiringEditor-runButton",
-         container: toolbar
-      });
-      runButton.on("click", jsBox.run, jsBox, true);
-   },
+         renderButtons: function() {
+            jsBox.WiringEditor.superclass.renderButtons.call(this);
+            var toolbar = YAHOO.util.Dom.get('toolbar');
+            var runButton = new YAHOO.widget.Button({
+               label: "Run",
+               id: "WiringEditor-runButton",
+               container: toolbar
+            });
+            runButton.on("click", jsBox.run, jsBox, true);
+         },
 
-   /**
+         /**
     * Overwrite updateLoadPanelList to add Composed modules to the module list
     */
-   updateLoadPanelList: function() {
-      try {
-         var left = YAHOO.util.Dom.get('left');
-         var list = WireIt.cn("ul");
-         if (YAHOO.lang.isArray(this.pipes)) {
-            for (var i = 0; i < this.pipes.length; i++) {
-               var module = this.pipes[i];
+         updateLoadPanelList: function() {
+            try {
+               var left = YAHOO.util.Dom.get('left');
+               var list = WireIt.cn("ul");
+               if (YAHOO.lang.isArray(this.pipes)) {
+                  for (var i = 0; i < this.pipes.length; i++) {
+                     var module = this.pipes[i];
 
-               this.pipesByName[module.name] = module;
+                     this.pipesByName[module.name] = module;
 
-               // Add the module to the list
-               var div = WireIt.cn('div', {
-                  className: "WiringEditor-module ComposedModule"
-               });
-               div.appendChild(WireIt.cn('span', null, null, module.name));
-               var ddProxy = new WireIt.ModuleProxy(div, this);
-               ddProxy._module = {
-                  name: module.name,
-                  container: {
-                     "xtype": "jsBox.ComposedContainer",
-                     "title": module.name
+                     // Add the module to the list
+                     var div = WireIt.cn('div', {
+                        className: "WiringEditor-module ComposedModule"
+                     });
+                     div.appendChild(WireIt.cn('span', null, null, module.name));
+                     var ddProxy = new WireIt.ModuleProxy(div, this);
+                     ddProxy._module = {
+                        name: module.name,
+                        container: {
+                           "xtype": "jsBox.ComposedContainer",
+                           "title": module.name
+                        }
+                     };
+                     left.appendChild(div);
+
+                     var li = WireIt.cn('li', null, {
+                        cursor: 'pointer'
+                     },
+                     module.name);
+                     YAHOO.util.Event.addListener(li, 'click',
+                     function(e, args) {
+                        try {
+                           this.loadPipe(YAHOO.util.Event.getTarget(e).innerHTML);
+                        } catch(ex) {
+                           console.log(ex);
+                        }
+                     },
+                     this, true);
+                     list.appendChild(li);
                   }
-               };
-               left.appendChild(div);
+               }
+               var panelBody = YAHOO.util.Dom.get('loadPanelBody');
+               panelBody.innerHTML = "";
+               panelBody.appendChild(list);
 
-               var li = WireIt.cn('li', null, {
-                  cursor: 'pointer'
-               },
-               module.name);
-               YAHOO.util.Event.addListener(li, 'click',
-               function(e, args) {
-                  try {
-                     this.loadPipe(YAHOO.util.Event.getTarget(e).innerHTML);
-                  } catch(ex) {
-                     console.log(ex);
-                  }
-               },
-               this, true);
-               list.appendChild(li);
+            } catch(ex) {
+               console.log(ex);
             }
          }
-         var panelBody = YAHOO.util.Dom.get('loadPanelBody');
-         panelBody.innerHTML = "";
-         panelBody.appendChild(list);
 
-      } catch(ex) {
-         console.log(ex);
-      }
-   }
+      });
 
-});
-
-/**
+      /**
  * Container class used by the "jsBox" module (automatically sets terminals depending on the number of arguments)
  * @class Container
  * @namespace jsBox
  * @constructor
  */
-jsBox.Container = function(options, layer) {
+      jsBox.Container = function(options, layer) {
 
-   jsBox.Container.superclass.constructor.call(this, options, layer);
+         jsBox.Container.superclass.constructor.call(this, options, layer);
 
-   this.buildTextArea(options.codeText || "function(e) {\n\n  return 0;\n}");
+         this.buildTextArea(options.codeText || "function(e) {\n\n  return 0;\n}");
 
-   this.createTerminals();
+         this.createTerminals();
 
-   // Reposition the terminals when the jsBox is being resized
-   this.ddResize.eventResize.subscribe(function(e, args) {
-      this.positionTerminals();
-      YAHOO.util.Dom.setStyle(this.textarea, "height", (args[0][1] - 70) + "px");
-   },
-   this, true);
-};
+         // Reposition the terminals when the jsBox is being resized
+         this.ddResize.eventResize.subscribe(function(e, args) {
+            this.positionTerminals();
+            YAHOO.util.Dom.setStyle(this.textarea, "height", (args[0][1] - 70) + "px");
+         },
+         this, true);
+      };
 
-YAHOO.extend(jsBox.Container, WireIt.Container, {
+      YAHOO.extend(jsBox.Container, WireIt.Container, {
 
-   /**
+         /**
     * Create the textarea for the javascript code
     * @method buildTextArea
     * @param {String} codeText
     */
-   buildTextArea: function(codeText) {
+         buildTextArea: function(codeText) {
 
-      this.textarea = WireIt.cn('textarea', null, {
-         width: "90%",
-         height: "70px",
-         border: "0",
-         padding: "5px"
-      },
-      codeText);
-      this.setBody(this.textarea);
+            this.textarea = WireIt.cn('textarea', null, {
+               width: "90%",
+               height: "70px",
+               border: "0",
+               padding: "5px"
+            },
+            codeText);
+            this.setBody(this.textarea);
 
-      YAHOO.util.Event.addListener(this.textarea, 'change', this.createTerminals, this, true);
+            YAHOO.util.Event.addListener(this.textarea, 'change', this.createTerminals, this, true);
 
-   },
+         },
 
-   /**
+         /**
     * Create (and re-create) the terminals with this.nParams input terminals
     * @method createTerminals
     */
-   createTerminals: function() {
+         createTerminals: function() {
 
-      // Output Terminal
-      if (!this.outputTerminal) {
-         this.outputTerminal = this.addTerminal({
-            xtype: "WireIt.util.TerminalOutput",
-            "name": "out"
-         });
-         this.outputTerminal.jsBox = this;
-      }
+            // Output Terminal
+            if (!this.outputTerminal) {
+               this.outputTerminal = this.addTerminal({
+                  xtype: "WireIt.util.TerminalOutput",
+                  "name": "out"
+               });
+               this.outputTerminal.jsBox = this;
+            }
 
-      // Input terminals :
-      var match = (this.textarea.value).match((/^[ ]*function[ ]*\((.*)\)[ ]*\{/));
-      var sParamList = match ? match[1] : "";
-      var params = sParamList.split(',');
-      var nParams = (sParamList == "") ? 0 : params.length;
+            // Input terminals :
+            var match = (this.textarea.value).match((/^[ ]*function[ ]*\((.*)\)[ ]*\{/));
+            var sParamList = match ? match[1] : "";
+            var params = sParamList.split(',');
+            var nParams = (sParamList == "") ? 0 : params.length;
 
-      var curTerminalN = this.nParams || 0;
-      if (curTerminalN < nParams) {
-         // add terminals
-         for (var i = curTerminalN; i < nParams; i++) {
-            var term = this.addTerminal({
-               xtype: "WireIt.util.TerminalInput",
-               "name": "param" + i
-            });
-            //term.jsBox = this;
-            WireIt.sn(term.el, null, {
-               position: "absolute",
-               top: "-15px"
-            });
-         }
-      } else if (curTerminalN > nParams) {
-         // remove terminals
-         for (var i = this.terminals.length - (curTerminalN - nParams); i < this.terminals.length; i++) {
-            this.terminals[i].remove();
-            this.terminals[i] = null;
-         }
-         this.terminals = WireIt.compact(this.terminals);
-      }
-      this.nParams = nParams;
+            var curTerminalN = this.nParams || 0;
+            if (curTerminalN < nParams) {
+               // add terminals
+               for (var i = curTerminalN; i < nParams; i++) {
+                  var term = this.addTerminal({
+                     xtype: "WireIt.util.TerminalInput",
+                     "name": "param" + i
+                  });
+                  //term.jsBox = this;
+                  WireIt.sn(term.el, null, {
+                     position: "absolute",
+                     top: "-15px"
+                  });
+               }
+            } else if (curTerminalN > nParams) {
+               // remove terminals
+               for (var i = this.terminals.length - (curTerminalN - nParams); i < this.terminals.length; i++) {
+                  this.terminals[i].remove();
+                  this.terminals[i] = null;
+               }
+               this.terminals = WireIt.compact(this.terminals);
+            }
+            this.nParams = nParams;
 
-      this.positionTerminals();
+            this.positionTerminals();
 
-      // Declare the new terminals to the drag'n drop handler (so the wires are moved around with the container)
-      this.dd.setTerminals(this.terminals);
-   },
+            // Declare the new terminals to the drag'n drop handler (so the wires are moved around with the container)
+            this.dd.setTerminals(this.terminals);
+         },
 
-   /**
+         /**
     * Reposition the terminals
     * @method positionTerminals
     */
-   positionTerminals: function() {
-      var width = WireIt.getIntStyle(this.el, "width");
+         positionTerminals: function() {
+            var width = WireIt.getIntStyle(this.el, "width");
 
-      var inputsIntervall = Math.floor(width / (this.nParams + 1));
+            var inputsIntervall = Math.floor(width / (this.nParams + 1));
 
-      for (var i = 1; i < this.terminals.length; i++) {
-         var term = this.terminals[i];
-         YAHOO.util.Dom.setStyle(term.el, "left", (inputsIntervall * (i)) - 15 + "px");
-         for (var j = 0; j < term.wires.length; j++) {
-            term.wires[j].redraw();
-         }
-      }
+            for (var i = 1; i < this.terminals.length; i++) {
+               var term = this.terminals[i];
+               YAHOO.util.Dom.setStyle(term.el, "left", (inputsIntervall * (i)) - 15 + "px");
+               for (var j = 0; j < term.wires.length; j++) {
+                  term.wires[j].redraw();
+               }
+            }
 
-      // Output terminal
-      WireIt.sn(this.outputTerminal.el, null, {
-         position: "absolute",
-         bottom: "-15px",
-         left: (Math.floor(width / 2) - 15) + "px"
-      });
-      for (var j = 0; j < this.outputTerminal.wires.length; j++) {
-         this.outputTerminal.wires[j].redraw();
-      }
-   },
+            // Output terminal
+            WireIt.sn(this.outputTerminal.el, null, {
+               position: "absolute",
+               bottom: "-15px",
+               left: (Math.floor(width / 2) - 15) + "px"
+            });
+            for (var j = 0; j < this.outputTerminal.wires.length; j++) {
+               this.outputTerminal.wires[j].redraw();
+            }
+         },
 
-   /**
+         /**
     * Extend the getConfig to add the "codeText" property
     * @method getConfig
     */
-   getConfig: function() {
-      var obj = jsBox.Container.superclass.getConfig.call(this);
-      obj.codeText = this.textarea.value;
-      return obj;
-   }
+         getConfig: function() {
+            var obj = jsBox.Container.superclass.getConfig.call(this);
+            obj.codeText = this.textarea.value;
+            return obj;
+         }
 
-});
+      });
 
-/**
+      /**
  * ComposedContainer is a class for Container representing Pipes.
  * It automatically generates the inputEx Form from the input Params.
  * @class ComposedContainer
  * @extends WireIt.inputExContainer
  * @constructor
  */
-jsBox.ComposedContainer = function(options, layer) {
+      jsBox.ComposedContainer = function(options, layer) {
 
-   if (!options.fields) {
+         if (!options.fields) {
 
-      options.fields = [];
-      options.terminals = [];
+            options.fields = [];
+            options.terminals = [];
 
-      var pipe = jsBox.editor.getPipeByName(options.title);
-      for (var i = 0; i < pipe.modules.length; i++) {
-         var m = pipe.modules[i];
-         if (m.name == "input") {
-            m.value.input.inputParams.wirable = true;
-            options.fields.push(m.value.input);
-         } else if (m.name == "output") {
-            options.terminals.push({
-               name: m.value.name,
-               "direction": [0, 1],
-               "offsetPosition": {
-                  "left": options.terminals.length * 40,
-                  "bottom": -15
-               },
-               "ddConfig": {
-                  "type": "output",
-                  "allowedTypes": ["input"]
+            var pipe = jsBox.editor.getPipeByName(options.title);
+            for (var i = 0; i < pipe.modules.length; i++) {
+               var m = pipe.modules[i];
+               if (m.name == "input") {
+                  m.value.input.inputParams.wirable = true;
+                  options.fields.push(m.value.input);
+               } else if (m.name == "output") {
+                  options.terminals.push({
+                     name: m.value.name,
+                     "direction": [0, 1],
+                     "offsetPosition": {
+                        "left": options.terminals.length * 40,
+                        "bottom": -15
+                     },
+                     "ddConfig": {
+                        "type": "output",
+                        "allowedTypes": ["input"]
+                     }
+                  });
                }
-            });
+            }
          }
-      }
-   }
 
-   jsBox.ComposedContainer.superclass.constructor.call(this, options, layer);
-};
+         jsBox.ComposedContainer.superclass.constructor.call(this, options, layer);
+      };
 
-YAHOO.extend(jsBox.ComposedContainer, WireIt.FormContainer, {});
+      YAHOO.extend(jsBox.ComposedContainer, WireIt.FormContainer, {});
