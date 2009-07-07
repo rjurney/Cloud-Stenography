@@ -33,6 +33,15 @@ __PACKAGE__->config( name => 'CloudStenography' );
 __PACKAGE__->config->{static}->{ignore_extensions} = [
     qw/tmpl tt tt2 xhtml/ 
  ];
+ 
+ __PACKAGE__->config(
+    # Set the default serialization to JSON
+    'default' => 'JSON',
+    'map' => {
+        # Remap x-www-form-urlencoded to use JSON for serialization
+        'application/x-www-form-urlencoded' => 'JSON',
+    },
+ );
 
 # Start the application
 __PACKAGE__->setup();
