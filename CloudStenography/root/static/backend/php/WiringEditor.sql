@@ -1,10 +1,18 @@
+DROP DATABASE if exists cloudstenography;
 
-CREATE TABLE `wirings` (
-   `id` int( 11 ) NOT NULL AUTO_INCREMENT ,
-   `name` varchar( 255 ) NOT NULL ,
-   `working` text NOT NULL ,
-   `language` varchar( 255 ) NOT NULL ,
+CREATE DATABASE cloudstenography;
 
-   PRIMARY KEY ( `id` ) ,
-   KEY `name` ( `name` , `language` )
+use cloudstenography;
+
+DROP SCHEMA if exists pig;
+
+create schema pig;
+
+CREATE TABLE pig.language_words (
+   id serial primary key,
+   name varchar( 255 ) NOT NULL ,
+   working text NOT NULL ,
+   language varchar( 255 ) NOT NULL
 );
+
+create index name_language_idx on pig.language_words(name, language);
