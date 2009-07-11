@@ -1,6 +1,7 @@
 (function() {
     var util = YAHOO.util,lang = YAHOO.lang;
     var Event = util.Event, Dom = util.Dom, Connect = util.Connect,JSON = lang.JSON,widget = YAHOO.widget;
+    YAHOO.util.Connect.setDefaultPostHeader('application/json');
 
 
 /**

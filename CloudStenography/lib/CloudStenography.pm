@@ -16,7 +16,9 @@ use Catalyst::Runtime 5.80;
 use parent qw/Catalyst/;
 use Catalyst qw/-Debug
                 ConfigLoader
-                Static::Simple/;
+                Static::Simple
+                Server
+                Server::JSONRPC/;
 our $VERSION = '0.01';
 
 # Configure the application.
@@ -28,23 +30,30 @@ our $VERSION = '0.01';
 # with an external configuration file acting as an override for
 # local deployment.
 
-__PACKAGE__->config( name => 'CloudStenography' );
+__PACKAGE__->config(
+                        name => 'CloudStenography',
+                        jsonrpc => {
+                            path => qr#^(/?)wirings(/|$)#,
+                        }
+                    );
 
 __PACKAGE__->config->{static}->{ignore_extensions} = [
     qw/tmpl tt tt2 xhtml/ 
  ];
  
- __PACKAGE__->config(
-    # Set the default serialization to JSON
-    'default' => 'JSON',
-    'map' => {
-        # Remap x-www-form-urlencoded to use JSON for serialization
-        'application/x-www-form-urlencoded' => 'JSON',
-    },
- );
+ #__PACKAGE__->config(
+ #   # Set the default serialization to JSON
+ #   'default' => 'JSON',
+ #   'map' => {
+ #       # Remap x-www-form-urlencoded to use JSON for serialization
+ #       'application/json' => 'JSON',
+ #   },
+ #);
 
 # Start the application
 __PACKAGE__->setup();
+
+#Moose::Util::apply_all_roles(CloudStenography->log, 'Catalyst::TraitFor::Log::Audio');
 
 
 =head1 NAME

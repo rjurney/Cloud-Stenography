@@ -1,9 +1,11 @@
-package CloudStenography::Controller::Editor;
+package CloudStenography::Controller::Wirings;
 
 use strict;
 use warnings;
 
-use base 'Catalyst::Controller::REST';
+use base 'Catalyst::Controller';
+
+use Data::Dump qw/dump/;
 
 # If we have a form, return JSON data
 __PACKAGE__->config(
@@ -13,77 +15,141 @@ __PACKAGE__->config(
             'text/xml'  => [ 'View', 'TT' ],
             'text/html' => [ 'View', 'TT' ],
             # Remap x-www-form-urlencoded to use JSON for serialization
-            'application/x-www-form-urlencoded' => 'JSON',
+            'application/json' => 'JSON',
         },
     }
 );
 
 
+=head2 saveWiring
 
-# SMD:
-#"saveWiring" : {
-#   "description": "Save the module",
-#   "parameters": [
-#      {"name":"name","type":"string"},
-#      {"name":"working","type":"text"},
-#      {"name":"language","type":"text"}
-#   ]
-#},
-sub saveWiring
+    SMD:
+   "saveWiring" : {
+      "description": "Save the module",
+      "parameters": [
+         {"name":"name","type":"string"},
+         {"name":"working","type":"text"},
+         {"name":"language","type":"text"}
+      ]
+   },
+
+=cut
+
+sub saveWiring : JSONRPCPath('/saveWiring')
+{
+    my ( $self, $c, @args ) = @_;
+    
+    my $name = $c->req->param('name');
+    my $working = $c->req->param('working');
+    my $language = $c->req->param('language');
+    
+    # Save if all parameters present, or throw error
+    if($name and $working and $language)
+    {
+        my $script = $c->model('CloudDB::LanguageWords')->new({name => $name, working => $working, language => $language});
+        $script->insert;
+    }
+    else
+    {
+        $c->log->debug("Problem saving name: $name language: $language working: $working");
+        $c->stash->{jsonrpc} = 'error';
+        return;
+    }
+    
+    $c->stash->{jsonrpc} = 1;
+}
+
+
+=head2 listWirings
+
+    SMD:
+    "listWirings" : {
+       "description": "Get the list of modules",
+       "parameters": [
+          {"name":"language","type":"text"}
+       ]
+    },
+
+=cut
+
+sub listWirings : JSONRPCPath('/listWirings') 
+{
+
+    my ( $self, $c, @args ) = @_;
+    
+    # We will support more than one eventually
+    my $language = ($c->req->param('language') or 'pig');
+    
+    my @wiring_objs = $c->model('CloudDB::LanguageWords')->search({language => $language});
+    
+    my @wirings;
+    foreach my $wiring (@wiring_objs)
+    {
+        # Stuff a hash into the array
+        push @wirings, { name => $wiring->name };
+    }
+    
+    $c->stash->{jsonrpc} = \@wirings;
+}
+
+
+=head2 loadWiring
+
+    SMD:
+    "loadWiring" : {
+       "description": "Load the module",
+       "parameters": [
+          {"name":"name","type":"string"},
+          {"name":"language","type":"text"}
+       ]
+    },
+
+=cut
+
+sub loadWiring
+{
+    my ( $self, $c, @args ) = @_;
+    
+    my $name = $c->req->param('name');
+    my $language = $c->req->param('language');
+    
+    if($name and $language)
+    {
+        my $wiring = $c->model('CloudDB::LanguageWords')->find({name => $name, language => $language});
+        if($wiring)
+        {
+            $c->stash->{jsonrpc} = $wiring->get_columns;
+        }
+        else
+        {
+            $c->log->debug("No such wiring name: $name language: $language");
+        }
+    }
+    else
+    {
+        $c->log->debug("Must supply wiring name and language");
+        $c->stash->{jsonrpc} = 'error';
+        return;
+    }
+}
+
+
+=head2 deleteWiring
+
+    SMD:
+    "deleteWiring" : {
+       "description": "Delete the module",
+       "parameters": [
+          {"name":"name","type":"string"},
+          {"name":"language","type":"text"}
+       ]
+    }
+
+=cut
+
+sub deleteWiring
 {
     
 }
-=head2 user_list :Path('/user') :ActionClass('REST')
 
-This method sets up the /user url, which lists all of our users.  Requests
-will be dispatched to user_list_METHOD.
-
-=cut
-
-sub user_list : Path('/user') :Args(0) ActionClass('REST') {
-}
-
-=head2 user_list_GET
-
-Handles GET requests on '/user'.  Returns a hash of users, with URIs for
-each one.   Returns a 200 OK with the hash of users.
-
-=cut
-
-sub user_list_GET {
-    my ( $self, $c ) = @_;
-
-    $c->log->debug( $c->req->content_type );
-    #$c->log->debug( $c->req->headers->as_string );
-
-    my %user_list;
-    my $user_rs = $c->model('DB::User')->search;
-    while ( my $user_row = $user_rs->next ) {
-        $user_list{ $user_row->user_id } =
-          $c->uri_for( '/user/' . $user_row->user_id )->as_string;
-    }
-    $self->status_ok( $c, entity => \%user_list );
-
-    my $page     = $c->req->params->{page} || 1;
-    my $per_page = $c->req->params->{per_page} || 10;
-
-    # We'll use an array now:
-    my @user_list;
-    my $rs = $c->model('DB::User')
-        ->search(undef, { rows => $per_page })->page( $page );
-    while ( my $user_row = $rs->next ) {
-        push @user_list, {
-            $user_row->get_columns,
-            uri => $c->uri_for( '/user/' . $user_row->user_id )->as_string
-        };
-    }
-
-    $self->status_ok( $c, entity => {
-        result_set => {
-            totalResultsAvailable => $rs->pager->total_entries,
-            totalResultsReturned  => $rs->pager->entries_on_this_page,
-            firstResultPosition   => $rs->pager->current_page,
-            result => [ @user_list ]
-        }
-    });
-}
+1;
