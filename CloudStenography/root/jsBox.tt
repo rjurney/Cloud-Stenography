@@ -109,7 +109,7 @@ div.ComposedModule {
 <script type="text/javascript" src="[% c.uri_for('/static/js/WiringEditor.js') -%]"></script>
 <script type="text/javascript" src="[% c.uri_for('/static/js/ImageContainer.js') -%]"></script>
 
-<script type="text/javascript" src="[% c.uri_for('/static/examples/jsBox/jsBox.js') -%]"></script>
+<script type="text/javascript" src="[% c.uri_for('/editor/js') -%]"></script>
 <script type="text/javascript" src="[% c.uri_for('/static/examples/jsBox/ExecutionFrame.js') -%]"></script>
 <script>
 // Init the jsBox editor with a default program

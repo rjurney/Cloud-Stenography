@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/repos/Catalyst/!svn/ver/10249/trunk/examples/RestYUI
+END
+adventrest.yml
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/repos/Catalyst/!svn/ver/7163/trunk/examples/RestYUI/adventrest.yml
+END
+db.sql
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/repos/Catalyst/!svn/ver/7163/trunk/examples/RestYUI/db.sql
+END
+Makefile.PL
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/repos/Catalyst/!svn/ver/10249/trunk/examples/RestYUI/Makefile.PL
+END
+Changes
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/repos/Catalyst/!svn/ver/7163/trunk/examples/RestYUI/Changes
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/repos/Catalyst/!svn/ver/7163/trunk/examples/RestYUI/README
+END

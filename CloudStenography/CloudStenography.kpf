@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="aa28a7c4-3e81-a742-9892-cf85c5b5dbc1" kpf_version="4" name="CloudStenography.kpf">
+<preference-set idref="aa28a7c4-3e81-a742-9892-cf85c5b5dbc1">
+  <boolean id="import_live">1</boolean>
+</preference-set>
+</project>

@@ -5,7 +5,7 @@
    "envelope":"JSON-RPC-2.0",
    "transport":"POST",
    
-   "target":"editor",
+   "target":"yui",
    
    "services": {
    

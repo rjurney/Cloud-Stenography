@@ -1,0 +1,9 @@
+---
+name: AdventREST
+Model::DB:
+    schema_class: AdventREST::Schema
+    connect_info:
+        - DBI:SQLite:dbname=__path_to(db/adventrest.db)__
+        - ""
+        - ""
+

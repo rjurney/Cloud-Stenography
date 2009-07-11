@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+ <head>
+  <title>Advent!  Now with more AJAX</title>
+  <link rel="stylesheet" href="/static/container.css" media="screen"/>
+  <link rel="stylesheet" href="/static/datatable.css" media="screen"/>
+  <script type="text/javascript" src="/static/yui/yahoo.js"></script>
+  <script type="text/javascript" src="/static/yui/event.js"></script>
+  <script type="text/javascript" src="/static/yui/utilities.js"></script>
+  <script type="text/javascript" src="/static/yui/connection.js"></script>
+  <script type="text/javascript" src="/static/yui/dom.js"></script>
+  <script type="text/javascript" src="/static/yui/element-beta.js"></script>
+  <script type="text/javascript" src="/static/yui/datasource-beta.js"></script>
+  <script type="text/javascript" src="/static/yui/datatable-beta.js"></script>
+ </head>
+ <body class="yui-skin-sam">
+  <div id="user_list"></div>
+  <script type="text/javascript">
+  var Catalyst = {};
+  YAHOO.util.Event.addListener(window, "load", function() {
+    Catalyst.Example = new function() {
+        /* Create a format function to make the name a link. */
+        this.formatName = function( cell, record, column, source_data ) {
+            cell.innerHTML = "<a href='" + record.getData("uri") +
+                ">" + source_data + "</a>";
+        }
+
+        /* Create the YAHOO.util.DataSource object, the parameter is the
+           URI to your REST service
+         */
+        this.myDataSource = new YAHOO.util.DataSource("[%
+            c.uri_for( c.controller('User').action_for('user_list') ) %]?");
+        this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+        this.myDataSource.connXhrMode = "queueRequests";
+        this.myDataSource.responseSchema = {
+            resultsList: "result_set.result",
+            /* We have to define the fields for usage elsewhere */
+            fields: [ "user_id", "fullname", "uri" ]
+        };
+
+        var myColumnDefs = [
+            /* Setup our column definitions, and make the entries link to
+               the detail record by using the formatName formatter */
+            { key: "user_id", label: "ID", sortable: true,
+                formatter: this.formatName },
+            { key: "fullname", label: "Full Name", sortable: true,
+                formatter: this.formatName},
+            /* We don't need to define all of the columns, and the
+               URI is only useful behind the scenes.
+             */
+            /*{ key: "uri", label: "Location", sortable: true },*/
+        ];
+
+        this.myDataTable = new YAHOO.widget.DataTable(
+            "user_list", myColumnDefs,
+            this.myDataSource, {
+                /* The initialRequest is appended to the URI to set params */
+                initialRequest: "page=1&content-type=text/x-json",
+                fields: [ "ID", "Full Name" ]
+            }
+        );
+    };
+  });
+  </script>
+ </body>
+</html>

@@ -2,7 +2,7 @@ package CloudStenography::Controller::Editor;
 
 use strict;
 use warnings;
-use parent 'Catalyst::Controller';
+use base 'Catalyst::Controller';
 
 =head1 NAME
 
@@ -30,12 +30,21 @@ sub index :Path :Args(0) {
 
 }
 
+sub js :Local
+{
+    my ( $seld, $c ) = @_;
+    
+    $c->stash->{template} = 'jsBox.js.tt';
+    
+    $c->forward('View::TT');
+}
+
 
 
 
 =head1 AUTHOR
 
-Peyompian
+Russell Jurney
 
 =head1 LICENSE
 

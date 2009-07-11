@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/repos/Catalyst/!svn/ver/7200/trunk/examples/RestYUI/lib/AdventREST/Controller
+END
+User.pm
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/Catalyst/!svn/ver/7200/trunk/examples/RestYUI/lib/AdventREST/Controller/User.pm
+END
+Root.pm
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repos/Catalyst/!svn/ver/7186/trunk/examples/RestYUI/lib/AdventREST/Controller/Root.pm
+END
