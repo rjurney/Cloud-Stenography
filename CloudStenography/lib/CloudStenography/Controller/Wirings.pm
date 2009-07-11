@@ -86,7 +86,12 @@ sub listWirings : JSONRPCPath('/listWirings')
     foreach my $wiring (@wiring_objs)
     {
         # Stuff a hash into the array
-        push @wirings, { name => $wiring->name };
+        push @wirings, {
+                            id => $wiring->id,
+                            name => $wiring->name,
+                            language => $wiring->language,
+                            working => $wiring->working,
+                        };
     }
     
     $c->stash->{jsonrpc} = \@wirings;
@@ -149,7 +154,29 @@ sub loadWiring
 
 sub deleteWiring
 {
+    my ( $self, $c, @args ) = @_;
     
+    my $name = $c->req->param('name');
+    my $language = $c->req->param('language');
+    
+    if($name and $language)
+    {
+        my $wiring = $c->model('CloudDB::LanguageWords')->find({name => $name, language => $language});
+        if($wiring)
+        {
+            $wiring->delete;
+        }
+        else
+        {
+            $c->log->debug("No such wiring name: $name language: $language");
+        }
+    }
+    else
+    {
+        $c->log->debug("Must supply wiring name and language");
+        $c->stash->{jsonrpc} = 'error';
+        return;
+    }
 }
 
 1;
