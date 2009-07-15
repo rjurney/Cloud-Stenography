@@ -261,6 +261,7 @@ WireIt.WiringEditor.prototype = {
   * @method onSMDsuccess
   */
  onSMDsuccess: function() {
+    alert("SMD Success!  Application RPC configured!");
     //console.log("onSMDsuccess",this.service);
  },
  
@@ -270,6 +271,7 @@ WireIt.WiringEditor.prototype = {
   */
  onSMDfailure: function() { 
     //console.log("onSMDfailure", this.service);
+    alert("SMD load failure - critical error, service will not function")
  },
 
  /**

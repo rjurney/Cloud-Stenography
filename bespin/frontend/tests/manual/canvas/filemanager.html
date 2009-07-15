@@ -1,0 +1,417 @@
+<!--
+    ***** BEGIN LICENSE BLOCK *****
+    Version: MPL 1.1
+
+    The contents of this file are subject to the Mozilla Public License Version
+    1.1 (the "License"); you may not use this file except in compliance with
+    the License. You may obtain a copy of the License at
+    http://www.mozilla.org/MPL/
+
+    Software distributed under the License is distributed on an "AS IS" basis,
+    WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+    for the specific language governing rights and limitations under the
+    License.
+
+    The Original Code is Bespin.
+
+    The Initial Developer of the Original Code is Mozilla.
+    Portions created by the Initial Developer are Copyright (C) 2009
+    the Initial Developer. All Rights Reserved.
+
+    Contributor(s):
+        Bespin Team (bespin@mozilla.com)
+
+    ***** END LICENSE BLOCK *****
+-->
+<!doctype html>
+<html>
+<head>
+    <title>Bespin &raquo; File Manager</title>
+    <link type="text/css" rel="thstylesheet" href="../../../css/dashboard_th.css">
+
+    <script type="text/javascript" src="../../../js/dojo/dojo.js.uncompressed.js"></script>
+    <script type="text/javascript" src="../../../js/dojo/cookie.js"></script>
+
+    <script type="text/javascript" src="../../../js/bespin/bespin.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/client/server.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/client/settings.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/client/session.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/client/filesystem.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/cmd/commandline.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/cmd/dashboardcommands.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/cmd/commands.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/util/keys.js"></script>
+    <script type="text/javascript" src="../../../js/bespin/util/path.js"></script>
+
+    <!-- begin Th -->
+    <script type="text/javascript" src="/js/thsrc/jstraits.js"></script>
+    <script type="text/javascript" src="/js/thsrc/util.js"></script>
+    <script type="text/javascript" src="/js/thsrc/traits.js"></script>
+    <script type="text/javascript" src="/js/thsrc/css.js"></script>
+    <script type="text/javascript" src="/js/thsrc/th.js"></script>
+    <script type="text/javascript" src="/js/thsrc/components.js"></script>
+    <script type="text/javascript" src="/js/thsrc/jshashtable.js"></script>
+    <script type="text/javascript" src="/js/thsrc/formlayout/formLayout.js"></script>
+    <script>
+    // Tell Th where the base URL is so it knows where to load resources
+    th.global_resources.load("/js/thsrc/");
+    </script>
+    <!-- end Th -->
+
+    <!-- begin script tags -->
+    <script type="text/javascript">
+        var djConfig = { parseOnLoad: false, isDebug: false, debugAtAllCosts: false };
+    </script>
+
+    <script type="text/javascript">
+    var heightDiff;
+    var projects;
+    var scene;
+    var tree;
+    var infoPanel;
+    var currentProject;
+//    var go = bespin.util.navigate; // short cut static method
+//    var bd = bespin.page.dashboard;
+    var bd = this;
+
+    var server;
+    var settings;
+    var editSession;
+    var files;
+    var commandLine;
+
+    dojo.mixin(this, {
+        tree: null,
+        lastSelectedPath: null,
+        urlTimeout: null,
+        isLoggedIn: false,
+
+        sizeCanvas: function(canvas) {
+            if (!heightDiff) {
+                heightDiff = dojo.byId("header").clientHeight + dojo.byId("subheader").clientHeight + dojo.byId("footer").clientHeight;
+            }
+            var height = window.innerHeight - heightDiff + 11;
+            dojo.attr(canvas, { width: window.innerWidth, height: height });
+        },
+
+        loggedIn: function(userinfo)  {
+            // in some cases the user gets logged in twice => causes problems with restorePath()...
+            if (bd.isLoggedIn) return;
+
+            bd.isLoggedIn = true;
+            editSession.setUserinfo(userinfo);
+
+            bespin.publish("authenticated");
+
+            server.list(null, null, bd.displayProjects); // get projects
+            server.listOpen(bd.displaySessions); // get sessions
+        },
+
+        notLoggedIn: function(xhr) {
+            //go.home();
+            console.log("implement go.home");
+        },
+
+        prepareFilesForTree: function(files) {
+            if (files.length == 0) return [];
+
+            var name;
+            var fdata = [];
+            var settings = bespin.get('settings');
+            for (var i = 0; i < files.length; i++) {
+                name = files[i].name;
+                if (settings && settings.isSettingOff('dotmode') && name[0] == '.') {
+                    continue;
+                }
+                if (/\/$/.test(name)) {
+                    name = name.substring(0, name.length - 1);
+                    fdata.push({ name: name, contents: bd.fetchFiles });
+                } else {
+                    fdata.push({ name: name });
+                }
+            }
+
+            return fdata;
+        },
+
+        getFilePath: function(treePath) {
+            var filepath = "";
+
+            for (var i = 0; i < treePath.length; i++) {
+                if (treePath[i] && treePath[i].name) {
+                    filepath += treePath[i].name + ((i < treePath.length - 1) ? "/" : "");
+                }
+            }
+            return filepath;
+        },
+
+        fetchFiles: function(path, tree) {
+            var filepath = bd.getFilePath(path);
+
+            server.list(filepath, null, function(files) {
+                tree.updateData(path[path.length - 1], bd.prepareFilesForTree(files));
+                tree.render();
+            });
+        },
+
+        restorePath: function(newPath) {
+            bd.lastSelectedPath = bd.lastSelectedPath || '';
+            newPath = newPath || '';
+            var oldPath = bd.lastSelectedPath;
+            bd.lastSelectedPath = newPath;
+
+            if (newPath == oldPath && newPath != '') return;     // the path has not changed
+
+            newPath = newPath.split('/');
+            oldPath = oldPath.split('/');
+            currentProject = newPath[0];
+
+            tree.lists[0].selectItemByText(newPath[0]);    // this also perform a rendering of the project.list
+            scene.renderAllowed = false;
+
+            var sameLevel = 1;  // the value is 1 and not 0, as the first list (the project list) is not affected!
+            while (sameLevel < Math.min(newPath.length, oldPath.length) && newPath[sameLevel] == oldPath[sameLevel] && newPath[sameLevel] != '') {
+                sameLevel ++;
+            }
+
+            var fakePath = new Array(newPath.length);
+            for (var x = 1; x < newPath.length; x++) {
+                var fakeItem = new Object();
+                fakeItem.name = newPath[x];
+                if (x != newPath.length - 1) {
+                    fakeItem.contents = 'fake';
+                }
+                if (x > bd.tree.lists.length - 1) {
+                   bd.tree.showChildren(null, new Array(fakeItem));
+                }
+                if (newPath[x] != '') {
+                    bd.tree.lists[x].selectItemByText(newPath[x]);
+                }
+                fakePath[x] = fakeItem;
+            }
+
+            if (newPath.length <= bd.tree.lists.length) {
+                bd.tree.removeListsFrom(newPath.length);
+            }
+
+            var contentsPath = new Array(newPath.length);
+            var countSetupPaths = sameLevel;
+
+            // this function should stay here, as this funciton is accessing "pathContents" and "countSetupPaths"
+            var displayFetchedFiles = function(files) {
+                // "this" is the callbackData object!
+                var contents = bd.prepareFilesForTree(files);
+                if (this.index != 0) {
+                    contentsPath[this.index] = contents;
+                }
+
+                bd.tree.replaceList(this.index, contents);
+                bd.tree.lists[this.index].selectItemByText(fakePath[this.index].name);
+                countSetupPaths ++;
+
+                if (countSetupPaths == newPath.length) {
+                    for (var x = 0; x < newPath.length - 1; x++) {
+                        // when the path is not restored from the root, then there are contents without contents!
+                        if (contentsPath[x + 1]) {
+                            // todo: I added the if () to fix an error, not sure if it was a symptom of something larger
+                            if (bd.tree.lists[x].selected) bd.tree.lists[x].selected.contents = contentsPath[x + 1];
+                        }
+                    }
+                }
+            };
+
+            // get the data for the lists
+            for (var x = sameLevel; x < newPath.length; x++) {
+                var selected = bd.tree.lists[x - 1].selected;
+                if (selected && selected.contents && dojo.isArray(selected.contents)) {
+                    // restore filelist from local memory (the filelists was ones fetched)
+                    if (x > bd.tree.lists.length - 1) {
+                        bd.tree.showChildren(null, selected.contents);
+                    } else {
+                        bd.tree.replaceList(x, selected.contents);
+                    }
+                    bd.tree.lists[x].selectItemByText(fakePath[x].name);
+                    countSetupPaths ++;
+                } else {
+                    // load filelist form server
+                    var filepath = currentProject + "/" + bd.getFilePath(fakePath.slice(1, x));
+                    server.list(filepath, null, dojo.hitch({index: x}, displayFetchedFiles));
+                }
+            }
+
+            // deselect lists if needed
+            for (var x = newPath.length; x < tree.lists.length; x++) {
+                delete tree.lists[x].selected;
+            }
+
+            scene.renderAllowed = true;
+            scene.render();
+        },
+
+        displayProjects: function(projectItems) {
+            for (var i = 0; i < projectItems.length; i++) {
+                projectItems[i] = { name: projectItems[i].name.substring(0, projectItems[i].name.length - 1) , contents: bd.fetchFiles};
+            }
+
+            tree.replaceList(0, projectItems);
+
+            // Restore the last selected file
+            var path =  (new bespin.client.settings.URL()).get('path');
+            if (!bd.lastSelectedPath) {
+                bd.restorePath(path);
+            } else {
+                scene.render();
+            }
+        },
+
+        refreshProjects: function() {
+            server.list(null, null, bd.displayProjects);
+        }
+    });
+
+    function onLoad() {
+        // create the Thunderhead scene representing the file browser; will consist of various lists in one column on the left,
+        // and a horizontal tree component on the right
+        this.scene = new th.Scene(dojo.byId("canvas"));
+        var scene = this.scene;
+
+        // container for the scene
+        var topPanel = new th.Panel();
+
+        this.scene.root.add(topPanel);
+
+//        this.scene.bus.bind("click", topPanel, function(e) {
+//            console.log("top panel click!");
+//        });
+//
+//        this.scene.bus.bind("click", leftColumn, function(e) {
+//            console.log("left column click!");
+//        });
+//
+        // create a scroll pane for the left column, and a top-level container to put in the scroll pane
+        var leftColumnContents = new th.Panel();
+        var leftColumnScrollPane = new th.ScrollPane({ splitter: true });
+        leftColumnScrollPane.add(leftColumnContents);
+        topPanel.add(leftColumnScrollPane);
+//
+//        this.scene.bus.bind("click", leftColumnContents, function(e) {
+//            console.log("left column contents click!");
+//        });
+//
+//        this.scene.bus.bind("click", leftColumnScrollPane, function(e) {
+//            console.log("left column scroll pane click!");
+//        });
+//
+//        // add the project label and project list
+        var projectLabel = new th.Label({ text: "Projects" });
+        leftColumnContents.add(projectLabel);
+        this.projects = new th.List();
+        this.projects.getItemText = function(item) { return item.name };
+        leftColumnContents.add(this.projects);
+//
+//        this.scene.bus.bind("click", projectLabel, function(e) {
+//            console.log("project label click!");
+//        });
+//
+//
+//        // how to layout the two
+        leftColumnContents.layout = function() {
+            var top = this.children[0];
+            var bottom = this.children[1];
+
+            var d = this.d();
+
+            top.setBounds(d.i.l, d.i.t, d.b.iw, top.getPreferredSize().height);
+            bottom.setBounds(d.i.l, top.bounds.y + top.bounds.height, d.b.iw, d.b.ih - top.bounds.height);
+        }
+//
+//        // and a preferred size
+        leftColumnContents.getPreferredSize = function() {
+            var width = 200;    // todo: tie into CSS sizer thingie
+            var height = this.children[0].getPreferredSize().height + this.children[1].getPreferredSize().height;
+
+            return { width: width, height: height };
+        }
+//
+//        // the horizontal tree that will display the contents of a selected project
+        this.tree = new th.HorizontalTree({ id: "htree" });
+        topPanel.add(this.tree);
+//
+//        // homegrown layout; sorry, that's how I roll
+        topPanel.layout = function() {
+            var d = this.d();
+
+            console.log("d", d);
+
+            var left = this.children[0];
+            var right = this.children[1];
+
+            console.log("left", left);
+            console.log("right", right);
+
+            var pref = left.getPreferredSize();
+
+            console.log("left type: " + left.type);
+
+            console.log("pref", pref);
+
+            left.setBounds(d.i.l, d.i.t, pref.width, d.b.ih);
+            right.setBounds(left.bounds.x + left.bounds.width, d.i.t, d.b.iw - left.bounds.width, d.b.ih);
+
+            console.log("left bounds", left.bounds);
+            console.log("right bounds", right.bounds);
+        };
+
+        this.scene.render();
+
+//        scene.bus.bind("dblclick", tree, function(e) {
+//            var newTab = e.shiftKey;
+//            var path = tree.getSelectedPath();
+//            if (path.length == 0 || path[path.length - 1].contents) return; // don't allow directories either
+//            //go.editor(currentProject, bd.getFilePath(path.slice(1, path.length)), newTab);
+//            console.log("implement go.editor");
+//        });
+//
+//        scene.bus.bind("itemselected", tree, function(e) {
+//            var pathSelected = tree.getSelectedPath(true);
+//            //var db = bespin.page.dashboard;
+//            var db = this;
+//            // this keeps the url to be changed if the file path changes to frequently
+//            if (db.urlTimeout) {
+//                clearTimeout(db.urlTimeout);
+//            }
+//            db.urlTimeout = setTimeout(dojo.hitch(pathSelected, function () {
+//                db.lastSelectedPath = this;
+//                location.hash = '#path=' + this;
+//            }), 300);
+//        }, this);
+
+//        scene.bus.bind("itemselected", tree.lists[0], function(e) {
+//            currentProject = e.item.name;
+//            bespin.publish("project:set", { project: currentProject, suppressPopup: true, fromDashboardItemSelected: true });
+//        });
+
+        // setup the command line
+        server = bespin.register('server', new bespin.client.Server());
+        settings = bespin.register('settings', new bespin.client.settings.Core());
+        editSession = bespin.register('editSession', new bespin.client.session.EditSession());
+        files = bespin.register('files', new bespin.client.FileSystem());
+
+        // get logged in name; if not logged in, display an error of some kind
+        //server.currentuser(bd.loggedIn, bd.notLoggedIn);
+
+        // provide history for the dashboard
+//        bespin.subscribe("url:changed", function(e) {
+//            var pathSelected =  (new bespin.client.settings.URL()).get('path');
+//            bespin.page.dashboard.restorePath(pathSelected);
+//        });
+    }
+    </script>
+
+    <!-- end script tags -->
+</head>
+<body onload="onLoad()">
+    <canvas id="canvas" width="700" height="500" moz-opaque="true"></canvas>
+</body>
+</html>
+

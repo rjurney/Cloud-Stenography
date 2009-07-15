@@ -1,0 +1,6 @@
+digraph graph1 {
+    LOLoad1053 -> LOSort1055;
+    LOSort1055 [limit="-1"];
+    LOSort1055 -> LOLimit1056;
+    LOLimit1056 [limit="10"];
+}
