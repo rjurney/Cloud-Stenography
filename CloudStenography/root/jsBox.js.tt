@@ -252,12 +252,6 @@ YAHOO.lang.extend(jsBox.WiringEditor, WireIt.WiringEditor, {
    renderButtons: function() {
       jsBox.WiringEditor.superclass.renderButtons.call(this);
       var toolbar = YAHOO.util.Dom.get('toolbar');
-      var runButton = new YAHOO.widget.Button({
-         label: "Run",
-         id: "WiringEditor-runButton",
-         container: toolbar
-      });
-      runButton.on("click", jsBox.run, jsBox, true);
    },
 
    /**

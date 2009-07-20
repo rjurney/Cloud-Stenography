@@ -62,6 +62,10 @@ body {
  background:transparent url(../images/icons/help.png) no-repeat scroll 10% 50%;
 }
 
+#WiringEditor-illustrateButton button {
+ background:transparent url(../images/icons/glass.png) no-repeat scroll 10% 50%;
+}
+
 
 /**
  * LEFT
