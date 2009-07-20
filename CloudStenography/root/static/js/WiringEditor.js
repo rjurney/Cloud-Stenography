@@ -239,6 +239,12 @@ WireIt.WiringEditor.prototype = {
 
     var helpButton = new widget.Button({ label:"Help", id:"WiringEditor-helpButton", container: toolbar });
     helpButton.on("click", this.onHelp, this, true);
+    
+    var runButton = new widget.Button({ label: "Run", id:"WiringEditor-runButton", container: toolbar });
+    runButton.on("click", this.onRun, this, true);
+    
+    var illustrateButton = new widget.Button({ label: "Illustrate", id:"WiringEditor-illustrateButton", container: toolbar });
+    illustrateButton.on("click", this.onIllustrate, this, true);
  },
 
 
@@ -273,6 +279,69 @@ WireIt.WiringEditor.prototype = {
     //console.log("onSMDfailure", this.service);
     alert("SMD load failure - critical error, service will not function")
  },
+ 
+ /**
+  * run the current module
+  * @method runModule
+  */
+ runModule: function() {
+    
+    var value = this.getValue();
+    
+    this.service.runWiring({name: value.name, working: JSON.stringify(value.working), language: this.options.languageName }, {
+       success: this.runModuleSuccess,
+       failure: this.runModuleFailure,
+       scope: this
+    });
+ },
+ 
+ /**
+  * runModule success callback
+  * @method saveModuleSuccess
+  */
+ runModuleSuccess: function(o) {
+    alert("Run !");
+ },
+
+ /**
+  * runModule failure callback
+  * @method saveModuleFailure
+  */
+ runModuleFailure: function(o) {
+    alert("error while Running! ");
+ },
+ 
+ /**
+  * illustrate the current module
+  * @method illustrateModule
+  */
+ illustrateModule: function() {
+    
+    var value = this.getValue();
+    
+    this.service.runWiring({name: value.name, working: JSON.stringify(value.working), language: this.options.languageName }, {
+       success: this.runModuleSuccess,
+       failure: this.runModuleFailure,
+       scope: this
+    });
+ },
+ 
+ /**
+  * illustrateModule success callback
+  * @method saveModuleSuccess
+  */
+ illustrateModuleSuccess: function(o) {
+    alert("Illustrate !");
+ },
+
+ /**
+  * illustrateModule failure callback
+  * @method saveModuleFailure
+  */
+ illustrateModuleFailure: function(o) {
+    alert("error while Illustrating! ");
+ },
+
 
  /**
   * save the current module
@@ -350,6 +419,20 @@ WireIt.WiringEditor.prototype = {
   */
  onSave: function() {
     this.saveModule();
+ },
+ 
+ /**
+  * @method onRun
+  */
+ onRun: function() {
+    this.runModule();
+ },
+ 
+  /**
+  * @method onIllustrate
+  */
+  onIllustrate: function() {
+    this.illustrateModule();
  },
 
  /**
