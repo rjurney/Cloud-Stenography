@@ -7,6 +7,8 @@ use base 'Catalyst::Controller';
 
 use Data::Dump qw/dump/;
 
+use JSON;
+
 # If we have a form, return JSON data
 __PACKAGE__->config(
     'serialize' => {
@@ -111,7 +113,7 @@ sub listWirings : JSONRPCPath('/listWirings')
 
 =cut
 
-sub loadWiring
+sub loadWiring : JSONRPCPath('/loadWiring') 
 {
     my ( $self, $c, @args ) = @_;
     
@@ -152,7 +154,7 @@ sub loadWiring
 
 =cut
 
-sub deleteWiring
+sub deleteWiring : JSONRPCPath('/deleteWiring') 
 {
     my ( $self, $c, @args ) = @_;
     
@@ -193,7 +195,7 @@ sub deleteWiring
 
 =cut
 
-sub runWiring
+sub runWiring : JSONRPCPath('/runWiring') 
 {
     my ( $self, $c, @args ) = @_;
     
@@ -201,9 +203,15 @@ sub runWiring
     my $language = $c->req->param('language');
     my $working = $c->req->param('working');
     
-    my $foo = system("pwd");
+    my $foo = qx|/bin/pwd|;
+    
+    my $bar = decode_json($working);
+    
+    $c->log->debug(dump($bar));
 
     $c->log->debug("PWD: " . $foo);
+    
+    $c->log->debug($bar);
 }
 
 =head2 illustrateWiring
@@ -220,7 +228,7 @@ sub runWiring
 
 =cut
 
-sub illustrateWiring
+sub illustrateWiring : JSONRPCPath('/illustrateWiring') 
 {
     my ( $self, $c, @args ) = @_;
     
@@ -228,7 +236,7 @@ sub illustrateWiring
     my $language = $c->req->param('language');
     my $working = $c->req->param('working');
     
-    my $foo = system("pwd");
+    my $foo = qx|/bin/pwd|;
 
     $c->log->debug("PWD: " . $foo);
 }
