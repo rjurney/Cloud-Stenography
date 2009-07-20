@@ -39,8 +39,25 @@
             {"name":"name","type":"string"},
             {"name":"language","type":"text"}
          ]
-      }
+      },
       
+      "runWiring" : {
+         "description": "Run the module",
+         "parameters": [
+            {"name":"name","type":"string"},
+            {"name":"working","type":"text"},
+            {"name":"language","type":"text"}
+         ]
+      },
+      
+      "illustrateWiring" : {
+         "description": "Illustrate the module",
+         "parameters": [
+            {"name":"name","type":"string"},
+            {"name":"working","type":"text"},
+            {"name":"language","type":"text"}
+         ]
+      },
       
    }
 }

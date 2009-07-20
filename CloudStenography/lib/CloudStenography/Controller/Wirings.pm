@@ -179,4 +179,58 @@ sub deleteWiring
     }
 }
 
+=head2 runWiring
+
+    SMD:
+   "runWiring" : {
+      "description": "Run the module",
+      "parameters": [
+         {"name":"name","type":"string"},
+         {"name":"working","type":"text"},
+         {"name":"language","type":"text"}
+      ]
+   },
+
+=cut
+
+sub runWiring
+{
+    my ( $self, $c, @args ) = @_;
+    
+    my $name = $c->req->param('name');
+    my $language = $c->req->param('language');
+    my $working = $c->req->param('working');
+    
+    my $foo = system("pwd");
+
+    $c->log->debug("PWD: " . $foo);
+}
+
+=head2 illustrateWiring
+
+    SMD:
+   "illustrateWiring" : {
+      "description": "Illustrate the module",
+      "parameters": [
+         {"name":"name","type":"string"},
+         {"name":"working","type":"text"},
+         {"name":"language","type":"text"}
+      ]
+   },
+
+=cut
+
+sub illustrateWiring
+{
+    my ( $self, $c, @args ) = @_;
+    
+    my $name = $c->req->param('name');
+    my $language = $c->req->param('language');
+    my $working = $c->req->param('working');
+    
+    my $foo = system("pwd");
+
+    $c->log->debug("PWD: " . $foo);
+}
+
 1;
