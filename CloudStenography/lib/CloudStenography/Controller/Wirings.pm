@@ -203,15 +203,17 @@ sub runWiring : JSONRPCPath('/runWiring')
     my $language = $c->req->param('language');
     my $working = $c->req->param('working');
     
-    my $foo = qx|/bin/pwd|;
+    my $path = qx|/bin/pwd|;
     
-    my $bar = decode_json($working);
+    my $wiring = decode_json($working);
     
-    $c->log->debug(dump($bar));
-
-    $c->log->debug("PWD: " . $foo);
+    $c->log->debug(dump($wiring));
     
-    $c->log->debug($bar);
+    my $properties = $wiring->{properties};
+    my $modules = $wiring->{modules};
+    my $links = $wiring->{wires};
+    
+    
 }
 
 =head2 illustrateWiring
