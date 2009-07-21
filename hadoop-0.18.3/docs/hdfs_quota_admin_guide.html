@@ -1,0 +1,290 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="Apache Forrest" name="Generator">
+<meta name="Forrest-version" content="0.8">
+<meta name="Forrest-skin-name" content="pelt">
+<title>
+      Name Space Quotas Administrator Guide
+    </title>
+<link type="text/css" href="skin/basic.css" rel="stylesheet">
+<link media="screen" type="text/css" href="skin/screen.css" rel="stylesheet">
+<link media="print" type="text/css" href="skin/print.css" rel="stylesheet">
+<link type="text/css" href="skin/profile.css" rel="stylesheet">
+<script src="skin/getBlank.js" language="javascript" type="text/javascript"></script><script src="skin/getMenu.js" language="javascript" type="text/javascript"></script><script src="skin/fontsize.js" language="javascript" type="text/javascript"></script>
+<link rel="shortcut icon" href="images/favicon.ico">
+</head>
+<body onload="init()">
+<script type="text/javascript">ndeSetTextSize();</script>
+<div id="top">
+<!--+
+    |breadtrail
+    +-->
+<div class="breadtrail">
+<a href="http://www.apache.org/">Apache</a> &gt; <a href="http://hadoop.apache.org/">Hadoop</a> &gt; <a href="http://hadoop.apache.org/core/">Core</a><script src="skin/breadcrumbs.js" language="JavaScript" type="text/javascript"></script>
+</div>
+<!--+
+    |header
+    +-->
+<div class="header">
+<!--+
+    |start group logo
+    +-->
+<div class="grouplogo">
+<a href="http://hadoop.apache.org/"><img class="logoImage" alt="Hadoop" src="images/hadoop-logo.jpg" title="Apache Hadoop"></a>
+</div>
+<!--+
+    |end group logo
+    +-->
+<!--+
+    |start Project Logo
+    +-->
+<div class="projectlogo">
+<a href="http://hadoop.apache.org/core/"><img class="logoImage" alt="Hadoop" src="images/core-logo.gif" title="Scalable Computing Platform"></a>
+</div>
+<!--+
+    |end Project Logo
+    +-->
+<!--+
+    |start Search
+    +-->
+<div class="searchbox">
+<form action="http://www.google.com/search" method="get" class="roundtopsmall">
+<input value="hadoop.apache.org" name="sitesearch" type="hidden"><input onFocus="getBlank (this, 'Search the site with google');" size="25" name="q" id="query" type="text" value="Search the site with google">&nbsp; 
+                    <input name="Search" value="Search" type="submit">
+</form>
+</div>
+<!--+
+    |end search
+    +-->
+<!--+
+    |start Tabs
+    +-->
+<ul id="tabs">
+<li>
+<a class="unselected" href="http://hadoop.apache.org/core/">Project</a>
+</li>
+<li>
+<a class="unselected" href="http://wiki.apache.org/hadoop">Wiki</a>
+</li>
+<li class="current">
+<a class="selected" href="index.html">Hadoop 0.18 Documentation</a>
+</li>
+</ul>
+<!--+
+    |end Tabs
+    +-->
+</div>
+</div>
+<div id="main">
+<div id="publishedStrip">
+<!--+
+    |start Subtabs
+    +-->
+<div id="level2tabs"></div>
+<!--+
+    |end Endtabs
+    +-->
+<script type="text/javascript"><!--
+document.write("Last Published: " + document.lastModified);
+//  --></script>
+</div>
+<!--+
+    |breadtrail
+    +-->
+<div class="breadtrail">
+
+             &nbsp;
+           </div>
+<!--+
+    |start Menu, mainarea
+    +-->
+<!--+
+    |start Menu
+    +-->
+<div id="menu">
+<div onclick="SwitchMenu('menu_selected_1.1', 'skin/')" id="menu_selected_1.1Title" class="menutitle" style="background-image: url('skin/images/chapter_open.gif');">Documentation</div>
+<div id="menu_selected_1.1" class="selectedmenuitemgroup" style="display: block;">
+<div class="menuitem">
+<a href="index.html">Overview</a>
+</div>
+<div class="menuitem">
+<a href="quickstart.html">Quickstart</a>
+</div>
+<div class="menuitem">
+<a href="cluster_setup.html">Cluster Setup</a>
+</div>
+<div class="menuitem">
+<a href="hdfs_design.html">HDFS Architecture</a>
+</div>
+<div class="menuitem">
+<a href="hdfs_user_guide.html">HDFS User Guide</a>
+</div>
+<div class="menuitem">
+<a href="hdfs_permissions_guide.html">HDFS Permissions Guide</a>
+</div>
+<div class="menupage">
+<div class="menupagetitle">HDFS Quotas Administrator Guide</div>
+</div>
+<div class="menuitem">
+<a href="commands_manual.html">Commands Manual</a>
+</div>
+<div class="menuitem">
+<a href="hdfs_shell.html">FS Shell Guide</a>
+</div>
+<div class="menuitem">
+<a href="distcp.html">DistCp Guide</a>
+</div>
+<div class="menuitem">
+<a href="mapred_tutorial.html">Map-Reduce Tutorial</a>
+</div>
+<div class="menuitem">
+<a href="native_libraries.html">Native Hadoop Libraries</a>
+</div>
+<div class="menuitem">
+<a href="streaming.html">Streaming</a>
+</div>
+<div class="menuitem">
+<a href="hadoop_archives.html">Hadoop Archives</a>
+</div>
+<div class="menuitem">
+<a href="hod.html">Hadoop On Demand</a>
+</div>
+<div class="menuitem">
+<a href="api/index.html">API Docs</a>
+</div>
+<div class="menuitem">
+<a href="jdiff/changes.html">API Changes</a>
+</div>
+<div class="menuitem">
+<a href="http://wiki.apache.org/hadoop/">Wiki</a>
+</div>
+<div class="menuitem">
+<a href="http://wiki.apache.org/hadoop/FAQ">FAQ</a>
+</div>
+<div class="menuitem">
+<a href="http://hadoop.apache.org/core/mailing_lists.html">Mailing Lists</a>
+</div>
+<div class="menuitem">
+<a href="releasenotes.html">Release Notes</a>
+</div>
+<div class="menuitem">
+<a href="changes.html">All Changes</a>
+</div>
+</div>
+<div id="credit"></div>
+<div id="roundbottom">
+<img style="display: none" class="corner" height="15" width="15" alt="" src="skin/images/rc-b-l-15-1body-2menu-3menu.png"></div>
+<!--+
+  |alternative credits
+  +-->
+<div id="credit2"></div>
+</div>
+<!--+
+    |end Menu
+    +-->
+<!--+
+    |start content
+    +-->
+<div id="content">
+<div title="Portable Document Format" class="pdflink">
+<a class="dida" href="hdfs_quota_admin_guide.pdf"><img alt="PDF -icon" src="skin/images/pdfdoc.gif" class="skin"><br>
+        PDF</a>
+</div>
+<h1>
+      Name Space Quotas Administrator Guide
+    </h1>
+      
+<p>
+      The Hadoop Distributed File System (HDFS) allows the administrator to set quotas on individual directories. 
+      Newly created directories have no associated quota. 
+      The largest quota is <span class="codefrag">Long.Max_Value</span>. A quota of one forces a directory 
+      to remain empty.
+      </p>
+
+      
+<p>
+      The directory quota is a hard limit on the number of names in the tree 
+      rooted at that directory. File and directory creations fault if the quota 
+      would be exceeded. Quotas stick to renamed directories; the rename 
+      operation faults if operation would result in a quota violation. 
+      The attempt to set a quota faults if the directory would be in violation 
+      of the new quota.
+      </p>
+
+      
+<p>
+      Quotas are persistent with the fsimage. When starting, if the fsimage 
+      is immediately in violation of a quota (perhaps the fsimage was 
+      surreptitiously modified), the startup operation fails with an error report. 
+      Setting or removing a quota creates a journal entry.
+      </p> 
+
+      
+<p>
+      The following new commands or new options are added to support quotas. 
+      The first two are administration commands.
+      </p>
+
+      
+<ul>
+      
+<li>
+      
+<span class="codefrag">dfsadmin -setquota &lt;N&gt; &lt;directory&gt;...&lt;directory&gt;</span> 
+      
+<br>
+      Set the quota to be <span class="codefrag">N</span> for each directory. Best effort for each directory,
+      with faults reported if <span class="codefrag">N</span> is not a positive long integer, 
+      the directory does not exist or it is a file, or the directory would 
+      immediately exceed the new quota.
+      </li>
+  
+      
+<li>
+      
+<span class="codefrag">dfsadmin -clrquota &lt;directory&gt;...&lt;director&gt;</span>
+<br> 
+      Remove any quota for each directory. Best effort for each directory, 
+      with faults reported if the directory does not exist or it is a file. 
+      It is not a fault if the directory has no quota.
+      </li>
+  
+      
+<li>
+      
+<span class="codefrag">fs -count -q &lt;directory&gt;...&lt;directory&gt;</span>
+<br>
+      With the <span class="codefrag">-q</span> option, also report the quota value set for each 
+      directory, and the available quota remaining. If the directory does not have 
+      a quota set, the reported values are <span class="codefrag">none</span> and <span class="codefrag">inf</span>.
+      </li>
+      
+</ul>
+   
+</div>
+<!--+
+    |end content
+    +-->
+<div class="clearboth">&nbsp;</div>
+</div>
+<div id="footer">
+<!--+
+    |start bottomstrip
+    +-->
+<div class="lastmodified">
+<script type="text/javascript"><!--
+document.write("Last Published: " + document.lastModified);
+//  --></script>
+</div>
+<div class="copyright">
+        Copyright &copy;
+         2007 <a href="http://www.apache.org/licenses/">The Apache Software Foundation.</a>
+</div>
+<!--+
+    |end bottomstrip
+    +-->
+</div>
+</body>
+</html>

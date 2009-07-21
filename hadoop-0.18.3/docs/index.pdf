@@ -1,0 +1,209 @@
+%PDF-1.3
+%клмн
+4 0 obj
+<< /Type /Info
+/Producer (FOP 0.20.5) >>
+endobj
+5 0 obj
+<< /Length 1271 /Filter [ /ASCII85Decode /FlateDecode ]
+ >>
+stream
+Gat=,9lo&I&A@[:i98BA#RCJSG]]B88Z1soZ"A;qHCu]Xig:>nIRrLK++R^#Os3>1I'@dJIJ^6p==j8fja;=B&7q6%e]&cp?fVd*F^.?,T8Nd2'9$<p8@7*Gs6dUSlSLc=6gq!-olkVPd\ts%6P1)RH?b5E8#nj3-q>nl6$l/XpTYjB7U#2DJ`5aL]1n_>krCqDX_Z`8kLOe"dSmd_@8V?,e.F;>&*r*K8?L'/JHa"F/?EuSPJgWdPoQq!R[2OW.M.j]@90=LZebTr"iIFt@[Zt6<7_Uaa4JR([U"+Z]A0;%Y^Vlf2oX'lRg>%k"/n`h!r&i9c@;pcT2&*"IK,6GcPJS!6IYZ_eb&Tl\K2McG+JgK/@ghekfJ*l5-EW'Cl>k3=;4SbI2F>3)(m6WVD3qHI,Zl6(d`I"p@P7SLmG7S"b`(!0,h:g/23,BTO;W*g$1b6krDh3Wng_^G:QQkI$d@7pnVrc*?B@`k]e02ZAJED.A*Q:94YH!@Teu5AK1pUm6%.A^r(KW-Z/BqO(^P_/`:[K5sE1Oc8-;)a<<sE4aQ^`&09LX'_$N%j63=#Z58B\l?8]_DR[:*DGYI4;!>o?A"e$gq6iTl#'-<OA>(T.e>H/;,E1mrl2I9=H(hMm^3s[Y9?cN:",K,@eZC&%QEY3M+k\5CPfH4=+?jt8l[akl3<23!Sf@>f^l>lu%tK5$B/$<?%Y><S%l"\"jSMM-dO]i"m8Z0j35d`nYEWl41#+_<"-!lY3b]N?83b&7e0R*X2Q?WM<+?2`#bg]8e#KRWm6Uj.VcS<-p.KMO!jCm_bB.Q$e"2S(cYY^T!Oss&knl1;o*hL<Ca#`ME8]&-%!C@cqfd:4s'<s5dA/H#n4dhi9/q[qL(KkaiJHljD(+>T.Z6-A_dnld,f0J#C$=*CraEI4/lq#C;&U(k6iZB5Lso=kL\ZlckWFL&2!>K;Ikp1r'#I89%0_.BV*':2n(66'QYt&3KP:O#%)'rq$O(qXMP%4/Mp2@O!aQ*3%5T@FU)hho7?;V`)g*="S`0"OI@Wto87lC(k0oB67>;ADe\Cbk6q=Wm"_@9^nZr#V/B^OX`k?P9ngL_\XKKk)%7C080C^7'b^IA[`#*29Od^6!hagl4[[6Xb@mBY;W<g*3DY1KrS1t;H*+]Iog+63QhnJB;e7TcfcfP#W&KL%IX/XY@CjLKRipEnQD``DEmTPM]i`iI/T2?R%a"W,=;n=F'@0Sh)BmEf^DbVnkX5?Cr7[6%?[`VTn;JU*XrX3-<_$U~>
+endstream
+endobj
+6 0 obj
+<< /Type /Page
+/Parent 1 0 R
+/MediaBox [ 0 0 612 792 ]
+/Resources 3 0 R
+/Contents 5 0 R
+/Annots 7 0 R
+>>
+endobj
+7 0 obj
+[
+8 0 R
+9 0 R
+10 0 R
+11 0 R
+12 0 R
+13 0 R
+14 0 R
+15 0 R
+16 0 R
+]
+endobj
+8 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 376.956 572.6 431.304 560.6 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (http://hadoop.apache.org/core/mailing_lists.html)
+/S /URI >>
+/H /I
+>>
+endobj
+9 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 542.2 198.984 530.2 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (quickstart.html)
+/S /URI >>
+/H /I
+>>
+endobj
+10 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 529.0 213.996 517.0 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (cluster_setup.html)
+/S /URI >>
+/H /I
+>>
+endobj
+11 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 515.8 263.004 503.8 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (hdfs_design.html)
+/S /URI >>
+/H /I
+>>
+endobj
+12 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 502.6 252.636 490.6 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (mapred_tutorial.html)
+/S /URI >>
+/H /I
+>>
+endobj
+13 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 489.4 227.304 477.4 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (native_libraries.html)
+/S /URI >>
+/H /I
+>>
+endobj
+14 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 476.2 154.992 464.2 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (api/index.html)
+/S /URI >>
+/H /I
+>>
+endobj
+15 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 463.0 132.0 451.0 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (http://wiki.apache.org/hadoop/)
+/S /URI >>
+/H /I
+>>
+endobj
+16 0 obj
+<< /Type /Annot
+/Subtype /Link
+/Rect [ 108.0 449.8 132.0 437.8 ]
+/C [ 0 0 0 ]
+/Border [ 0 0 0 ]
+/A << /URI (http://wiki.apache.org/hadoop/FAQ)
+/S /URI >>
+/H /I
+>>
+endobj
+17 0 obj
+<< /Type /Font
+/Subtype /Type1
+/Name /F3
+/BaseFont /Helvetica-Bold
+/Encoding /WinAnsiEncoding >>
+endobj
+18 0 obj
+<< /Type /Font
+/Subtype /Type1
+/Name /F5
+/BaseFont /Times-Roman
+/Encoding /WinAnsiEncoding >>
+endobj
+19 0 obj
+<< /Type /Font
+/Subtype /Type1
+/Name /F1
+/BaseFont /Helvetica
+/Encoding /WinAnsiEncoding >>
+endobj
+20 0 obj
+<< /Type /Font
+/Subtype /Type1
+/Name /F2
+/BaseFont /Helvetica-Oblique
+/Encoding /WinAnsiEncoding >>
+endobj
+1 0 obj
+<< /Type /Pages
+/Count 1
+/Kids [6 0 R ] >>
+endobj
+2 0 obj
+<< /Type /Catalog
+/Pages 1 0 R
+ >>
+endobj
+3 0 obj
+<< 
+/Font << /F3 17 0 R /F5 18 0 R /F1 19 0 R /F2 20 0 R >> 
+/ProcSet [ /PDF /ImageC /Text ] >> 
+endobj
+xref
+0 21
+0000000000 65535 f 
+0000003624 00000 n 
+0000003682 00000 n 
+0000003732 00000 n 
+0000000015 00000 n 
+0000000071 00000 n 
+0000001434 00000 n 
+0000001554 00000 n 
+0000001634 00000 n 
+0000001831 00000 n 
+0000001993 00000 n 
+0000002159 00000 n 
+0000002323 00000 n 
+0000002491 00000 n 
+0000002660 00000 n 
+0000002822 00000 n 
+0000002998 00000 n 
+0000003177 00000 n 
+0000003290 00000 n 
+0000003400 00000 n 
+0000003508 00000 n 
+trailer
+<<
+/Size 21
+/Root 2 0 R
+/Info 4 0 R
+>>
+startxref
+3844
+%%EOF
