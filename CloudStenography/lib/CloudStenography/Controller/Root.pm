@@ -28,17 +28,13 @@ CloudStenography::Controller::Root - Root Controller for CloudStenography
 
 =cut
 
-#sub index :Path :Args(0) {
-#    my ( $self, $c ) = @_;
-#
-#    # Hello World
-#    $c->response->body( $c->welcome_message );
-#    
-#    my $foo = $c->model('CloudDB::LanguageWords')->new({name => 'foo', working => 'bar', language => 'pig'});
-#    $foo->insert;
-#    
-#    $c->log->debug(dump($foo));
-#}
+sub index :Path :Args(0) {
+    my ( $self, $c ) = @_;
+    
+    $c->res->redirect('/editor');
+    
+}
+
 
 sub default :Path {
     my ( $self, $c ) = @_;

@@ -1,0 +1,9 @@
+ERROR 4002: Can't read jar file: /home/dvryaboy/src/pig/trunk/piggybank.jar
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 4002: Can't read jar file: /home/dvryaboy/src/pig/trunk/piggybank.jar
+	at org.apache.pig.PigServer.registerJar(PigServer.java:356)
+	at org.apache.pig.tools.grunt.GruntParser.processRegister(GruntParser.java:320)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:286)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)

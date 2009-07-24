@@ -319,9 +319,9 @@ WireIt.WiringEditor.prototype = {
     
     var value = this.getValue();
     
-    this.service.runWiring({name: value.name, working: JSON.stringify(value.working), language: this.options.languageName }, {
-       success: this.runModuleSuccess,
-       failure: this.runModuleFailure,
+    this.service.illustrateWiring({name: value.name, working: JSON.stringify(value.working), language: this.options.languageName }, {
+       success: this.illustrateModuleSuccess,
+       failure: this.illustrateModuleFailure,
        scope: this
     });
  },

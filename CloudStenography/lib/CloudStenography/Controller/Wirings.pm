@@ -9,6 +9,9 @@ use Data::Dump qw/dump/;
 
 use JSON;
 
+# Handles JSON->Pig and Pig->JSON
+use CloudStenography::PigParser;
+
 # If we have a form, return JSON data
 __PACKAGE__->config(
     'serialize' => {
@@ -237,6 +240,10 @@ sub illustrateWiring : JSONRPCPath('/illustrateWiring')
     my $name = $c->req->param('name');
     my $language = $c->req->param('language');
     my $working = $c->req->param('working');
+    
+    my $parser = CloudStenography::PigParser->new();
+    
+    my $rpc_return = $parser->parse_json($working);
     
     my $foo = qx|/bin/pwd|;
 
