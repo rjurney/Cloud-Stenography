@@ -243,7 +243,9 @@ sub illustrateWiring : JSONRPCPath('/illustrateWiring')
     
     my $parser = CloudStenography::PigParser->new();
     
-    my $rpc_return = $parser->parse_json($working);
+    my $commands = $parser->parse_json($working);
+    
+    $c->log->debug(dump($commands));
     
     my $foo = qx|/bin/pwd|;
 
