@@ -5,6 +5,8 @@ use Carp;
 use Data::Dump qw/dump/;
 
 use JSON;
+use Graph;
+use Graph::Directed;
 
 my $PATH = '/Users/rjurney/Projects/cloudsteno/CloudStenography/pig-0.3.0/';
 
@@ -25,39 +27,67 @@ sub parse_json {
 
     my $modules = $struct->{modules};
     my $properties = $struct->{properties};
-    
-    warn "Illustrating " . $properties->{name} . ": " . $properties->{descriptions};
+    my $wires = $struct->{wires};
     
     my @commands = $self->initialize_pig();
     
-    my $link_counter = 0; my $last_dataset;
+    my $graph = $self->create_graph($wires, $modules);
+    
+    #my $link_counter = 0; my $last_dataset;
     # Loop through each module and build a line of command for it.
-    foreach my $module (@{$modules})
-    {
-        push @commands, $self->parse_command(\$dataset, $module->{name}, $module->{value});
-    }
+    #foreach my $module (@{$modules})
+    #{
+    #    push @commands, $self->parse_command(\$dataset, $module->{name}, $module->{value});
+    #}
     
     return \@commands;
 }
 
-=head2 parse_wires
+=head2 create_graph
 
-Ok, so a simpel ordering is not gonna work - can't trust the ordering of the array.
-Have to either order simple array by links - parsing them, or create a network graph
-and walk it.  Probably 1, then the other.
+Given the nodes (vertices) and edges (wires), create a Graph::Directed that will
+give us a path to iterate over to produce a wholesome data value iterator at
+each step and flow the data properly in Pig Latin.
 
 =cut
 
-sub parse_wires
+sub create_graph
 {
-    my ( $self, $wires ) = @_;
+    my ( $self, $wires, $nodes ) = @_;
     
-    return unless $wires;
+    carp "Both wires and nodes are not optional!" unless $wires and $nodes;
     
+    # Create a DAG (Directed, Acyclic Graph - what a Pig Latin script is).
+    my $dag = Graph::Directed->new();
+    
+    my %nodes;
+    my $counter = 0;
+    # Index the modules by a hash keyed by numbers
+    foreach my $n (@{$nodes})
+    {
+        $nodes{$counter} = $n;
+        $counter++;
+    }
+    
+    my $i = 0;
     # Loop through the wires
     foreach my $wire (@{$wires})
     {
+        my $src = $wire->{src}->{moduleId};
+        my $tgt = $wire->{tgt}->{moduleId};
         
+        $dag->add_edge($src, $tgt);
+    }
+    
+    warn "The graph is: $dag\n";
+    
+    my @ts = $dag->topological_sort;
+     
+    warn dump(@ts);
+    
+    foreach my $t (@ts)
+    {
+        warn "Order: $t" . dump($nodes{$t});
     }
 }
 
