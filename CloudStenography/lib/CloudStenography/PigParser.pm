@@ -5,8 +5,15 @@ use Carp;
 use Data::Dump qw/dump/;
 
 use JSON;
+
+# This is used to compute a valid order to generate/run our Pig commands in.
+# Pig Latin itself is a Directed Acyclic Graph.
 use Graph;
 use Graph::Directed;
+
+# This handles interaction with Pig via the command line.  Embedded Pig may make
+# sense soon via Java calls.
+use IPC::Run3;
 
 my $PATH = '/Users/rjurney/Projects/cloudsteno/CloudStenography/pig-0.3.0/';
 
@@ -14,7 +21,7 @@ our $dataset = 'A';
 
 sub parse_json {
     
-    my ( $self, $json ) = @_;
+    my ( $self, $json, $mode ) = @_;
     
     carp "Need JSON!" unless $json;
     
@@ -31,14 +38,25 @@ sub parse_json {
     
     my @commands = $self->initialize_pig();
     
-    my $graph = $self->create_graph($wires, $modules);
+    my ($ts, $nodes, $graph) = $self->create_graph($wires, $modules);
     
-    #my $link_counter = 0; my $last_dataset;
-    # Loop through each module and build a line of command for it.
-    #foreach my $module (@{$modules})
-    #{
-    #    push @commands, $self->parse_command(\$dataset, $module->{name}, $module->{value});
-    #}
+    # This is the name of the dataset at each step of the dataflow.
+    my $dataset = 'A';
+    
+    # This holds the value of the last dataset.
+    my $last_dataset;
+    # Loop through the directed graph, and create a command line for each node.
+    foreach my $t (@{$ts})
+    {
+        # It is the job of each command to increment the dataset counter as needed,
+        # and to set the last dataset.
+        my $command;
+        ($command, $dataset, $last_dataset) = $self->parse_command($dataset, $last_dataset, $nodes->{$t}->{name}, $nodes->{$t}->{value}, $mode);
+        
+        push @commands, $command;
+    }
+    
+    push @commands, "quit;\n";
     
     return \@commands;
 }
@@ -48,6 +66,10 @@ sub parse_json {
 Given the nodes (vertices) and edges (wires), create a Graph::Directed that will
 give us a path to iterate over to produce a wholesome data value iterator at
 each step and flow the data properly in Pig Latin.
+
+Returns three things: an array of integers, that are ordered in the correct order for the script
+to be run, as the dataset indicator iterates, and a hash of the nodes, keyed by
+their id in the ordering array, and finally the graph object itself.
 
 =cut
 
@@ -79,47 +101,55 @@ sub create_graph
         $dag->add_edge($src, $tgt);
     }
     
-    warn "The graph is: $dag\n";
-    
     my @ts = $dag->topological_sort;
-     
-    warn dump(@ts);
     
-    foreach my $t (@ts)
-    {
-        warn "Order: $t" . dump($nodes{$t});
-    }
+    return (\@ts, \%nodes, $dag);
 }
 
+=head2 parse_command
+
+Parse the data and return a Pig command, the next counter and the current counter for this line.
+
+=cut
 sub parse_command
 {
-    my ( $self, $datasetref, $name, $value ) = @_;
+    my ( $self, $dataset, $last_dataset, $name, $value, $mode ) = @_;
     
-    carp "Must provide name of command and value!" unless $datasetref and $name;
-    
-    my $dataset = $$datasetref;
+    carp "Must provide name of command and value!" unless $dataset and $name;
+
+    my $command;
     
     if($name eq 'LOAD')
     {
         my $filename = $value->{filename};
+        
         # Hard coded apache for now
-        return "$dataset = LOAD '$PATH$filename' USING LogLoader as (remoteAddr, remoteLogname, user, time, method, uri, proto, status, bytes, referer, userAgent);";
-        $dataset++;
+        $command = "$dataset = LOAD '$PATH$filename' USING LogLoader as (remoteAddr, remoteLogname, user, time, method, uri, proto, status, bytes, referer, userAgent);\n";
     }
     elsif($name eq 'FILTER')
     {
         my $filter = $value->{filter};
-        
-        my $last_dataset = $dataset;
-        $dataset++;
-        return "$dataset = FILTER $last_dataset BY $filter;"
+
+        $command = "$dataset = FILTER $last_dataset BY $filter;\n";
     }
     elsif($name eq 'STORE')
     {
         my $filename = $value->{filename};
         
-        return "STORE " . $dataset . " INTO '" . $filename . "';";
+        if($mode eq 'run')
+        {
+            $command = "STORE " . $last_dataset . " INTO '" . $filename . "';";
+        }
+        elsif($mode eq 'illustrate')
+        {
+            $command = "ILLUSTRATE $last_dataset;";
+        }
     }
+    
+    $last_dataset = $dataset;
+    $dataset++;
+    
+    return ($command, $dataset, $last_dataset);
 }
 
 sub initialize_pig
@@ -127,10 +157,31 @@ sub initialize_pig
     my ( $self ) = @_;
     
     my @commands =  (   # Hard coding apache for now
-                        'register /Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/contrib/piggybank/java/piggybank.jar;',
-                        'DEFINE LogLoader org.apache.pig.piggybank.storage.apachelog.CombinedLogLoader();',
-                        "DEFINE DayExtractor org.apache.pig.piggybank.evaluation.util.apachelogparser.DateExtractor('yyyy-MM-dd');",
+                        "register /Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/contrib/piggybank/java/piggybank.jar;\n",
+                        "DEFINE LogLoader org.apache.pig.piggybank.storage.apachelog.CombinedLogLoader();\n",
+                        "DEFINE DayExtractor org.apache.pig.piggybank.evaluation.util.apachelogparser.DateExtractor('yyyy-MM-dd');\n",
                     );
+}
+
+sub illustrate_commands
+{
+    my ( $self, $commands ) = @_;
+    
+    my $cmd = '/Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local';
+    my ($in, $out, $err);
+    
+    warn dump($commands);
+    
+    run3 $cmd, $commands, \$out, \$err;
+    
+    warn "Output: $out";
+}
+
+sub run_command
+{
+    my ( $self, $commands ) = @_;
+    
+    
 }
 
 1;

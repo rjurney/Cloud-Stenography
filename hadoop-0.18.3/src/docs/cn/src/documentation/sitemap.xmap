@@ -21,7 +21,7 @@
       <map:serializer name="fo2pdf"
                 src="org.apache.cocoon.serialization.FOPSerializer"
                 mime-type="application/pdf">
-        <user-config src="/home/ndaley/hadoop/branch-0.18/src/docs/cn/uming.conf"/>
+        <user-config src="/Users/rjurney/Projects/cloudsteno/hadoop-0.18.3/src/docs/cn/uming.conf"/>
         </map:serializer>
     </map:serializers>
   </map:components>
