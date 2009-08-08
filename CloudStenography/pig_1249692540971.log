@@ -1,0 +1,10 @@
+ERROR 2999: Unexpected internal error. Unable to setup the load function.
+java.lang.RuntimeException: Unable to setup the load function.
+	at org.apache.pig.pen.ExampleGenerator.getExamples(ExampleGenerator.java:96)
+	at org.apache.pig.PigServer.getExamples(PigServer.java:717)
+	at org.apache.pig.tools.grunt.GruntParser.processIllustrate(GruntParser.java:532)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:195)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)

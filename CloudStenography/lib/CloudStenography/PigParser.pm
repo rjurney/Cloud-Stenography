@@ -17,7 +17,8 @@ use IPC::Run3;
 
 my $PATH = '/Users/rjurney/Projects/cloudsteno/CloudStenography/pig-0.3.0/';
 
-our $dataset = 'A';
+our $letter = 'A';
+our %node_letters;
 
 sub parse_json {
     
@@ -41,19 +42,22 @@ sub parse_json {
     my ($ts, $nodes, $graph) = $self->create_graph($wires, $modules);
     
     # This is the name of the dataset at each step of the dataflow.
-    my $dataset = 'A';
+    my $letter = 'A';
     
     # This holds the value of the last dataset.
-    my $last_dataset;
+    my $last_letter;
+    warn "TS: " . dump($ts);
     # Loop through the directed graph, and create a command line for each node.
     foreach my $t (@{$ts})
     {
+        warn "T: $t";
         # It is the job of each command to increment the dataset counter as needed,
         # and to set the last dataset.
         my $command;
-        ($command, $dataset, $last_dataset) = $self->parse_command($dataset, $last_dataset, $nodes->{$t}->{name}, $nodes->{$t}->{value}, $mode);
+        ($command, $letter, $last_letter) = $self->parse_command($letter, $last_letter, $nodes->{$t}->{name}, $nodes->{$t}->{value}, $mode, $graph, $t);
         
         push @commands, $command;
+        $node_letters{$t} = $last_letter;
     }
     
     push @commands, "quit;\n";
@@ -113,9 +117,9 @@ Parse the data and return a Pig command, the next counter and the current counte
 =cut
 sub parse_command
 {
-    my ( $self, $dataset, $last_dataset, $name, $value, $mode ) = @_;
+    my ( $self, $letter, $last_letter, $name, $value, $mode, $graph, $graph_node ) = @_;
     
-    carp "Must provide name of command and value!" unless $dataset and $name;
+    carp "Must provide name of command and value!" unless $letter and $name;
 
     my $command;
     
@@ -124,13 +128,13 @@ sub parse_command
         my $filename = $value->{filename};
         
         # Hard coded apache for now
-        $command = "$dataset = LOAD '$PATH$filename' USING LogLoader as (remoteAddr, remoteLogname, user, time, method, uri, proto, status, bytes, referer, userAgent);\n";
+        $command = "$letter = LOAD '$PATH$filename' USING LogLoader as (remoteAddr, remoteLogname, user, time, method, uri, proto, status, bytes, referer, userAgent);\n";
     }
     elsif($name eq 'FILTER')
     {
         my $filter = $value->{filter};
 
-        $command = "$dataset = FILTER $last_dataset BY $filter;\n";
+        $command = "$letter = FILTER $last_letter BY $filter;\n";
     }
     elsif($name eq 'STORE')
     {
@@ -138,18 +142,32 @@ sub parse_command
         
         if($mode eq 'run')
         {
-            $command = "STORE " . $last_dataset . " INTO '" . $filename . "';";
+            $command = "STORE $last_letter INTO '$filename';";
         }
         elsif($mode eq 'illustrate')
         {
-            $command = "ILLUSTRATE $last_dataset;";
+            $command = "ILLUSTRATE $last_letter;";
         }
     }
+    elsif($name eq 'JOIN')
+    {
+        my $cond_a = $value->{cond_a};
+        my $cond_b = $value->{cond_b};
+        
+        my @preds = $graph->predecessors($graph_node);
+        
+        warn "Preds: " . dump(@preds);
+        
+        my $letter1 = $node_letters{$preds[0]};
+        my $letter2 = $node_letters{$preds[1]};
+        
+        $command = "$letter = JOIN $letter1 BY $cond_a, $letter2 by $cond_b;";
+    }
     
-    $last_dataset = $dataset;
-    $dataset++;
+    $last_letter = $letter;
+    $letter++;
     
-    return ($command, $dataset, $last_dataset);
+    return ($command, $letter, $last_letter);
 }
 
 sub initialize_pig

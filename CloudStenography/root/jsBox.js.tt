@@ -127,7 +127,7 @@ var jsBox = {
             {
                "type": "string",
                "inputParams": {
-                  "label": "COND A",
+                  "label": "Field A",
                   "name": "cond_a",
                   "wirable": false
                }
@@ -136,7 +136,7 @@ var jsBox = {
             {
                "type": "string",
                "inputParams": {
-                  "label": "COND B",
+                  "label": "Field B",
                   "name": "cond_b",
                   "wirable": false
                }
