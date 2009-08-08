@@ -217,6 +217,12 @@ YAHOO.lang.extend(WireIt.Wire, WireIt.CanvasElement, {
       ctxt.moveTo(bezierPoints[0][0],bezierPoints[0][1]);
       ctxt.bezierCurveTo(bezierPoints[1][0],bezierPoints[1][1],bezierPoints[2][0],bezierPoints[2][1],bezierPoints[3][0],bezierPoints[3][1]);
       ctxt.stroke();
+      
+      this.tt1 = new YAHOO.widget.Tooltip("tt1",  
+	                        { context:this,  
+	                          text:"My text was set using the 'text' configuration property" });
+      
+      //this.text = 'Testing 1 3 2';
    
    },
 
@@ -649,8 +655,17 @@ YAHOO.lang.extend(WireIt.Wire, WireIt.CanvasElement, {
     * @param {Integer} x left position of the mouse (relative to the canvas)
     * @param {Integer} y top position of the mouse (relative to the canvas)
     */
+//   onWireIn: function(x,y) {
+//		this.eventMouseIn.fire(this, [x,y]);
+//   },
    onWireIn: function(x,y) {
-		this.eventMouseIn.fire(this, [x,y]);
+      this.options.color = 'rgb(255, 0, 0)';
+      this.redraw();
+   },
+   
+   onWireOut: function(x,y) {
+       this.options.color = 'rgb(173, 216, 230)';
+      this.redraw();
    },
    
    /**
@@ -660,9 +675,9 @@ YAHOO.lang.extend(WireIt.Wire, WireIt.CanvasElement, {
     * @param {Integer} x left position of the mouse (relative to the canvas)
     * @param {Integer} y top position of the mouse (relative to the canvas)
     */
-   onWireOut: function(x,y) {
-		this.eventMouseOut.fire(this, [x,y]);
-   },
+//   onWireOut: function(x,y) {
+//		this.eventMouseOut.fire(this, [x,y]);
+//   },
    
    /**
     * When the mouse clicked on the canvas

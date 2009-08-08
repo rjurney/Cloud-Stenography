@@ -247,6 +247,7 @@ sub illustrate_commands
     }
     
     warn dump($data_names);
+    return $data_names;
 }
 
 sub run_command

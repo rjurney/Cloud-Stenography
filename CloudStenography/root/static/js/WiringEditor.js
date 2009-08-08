@@ -331,7 +331,7 @@ WireIt.WiringEditor.prototype = {
   * @method saveModuleSuccess
   */
  illustrateModuleSuccess: function(o) {
-    alert("Illustrate !");
+    alert(o.result.toSource());
  },
 
  /**

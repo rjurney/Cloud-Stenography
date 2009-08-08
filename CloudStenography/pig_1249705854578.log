@@ -1,0 +1,15 @@
+ERROR 1000: Error during parsing. Encountered " ";" "; "" at line 4, column 12.
+Was expecting:
+    <IDENTIFIER> ...
+    
+org.apache.pig.tools.pigscript.parser.ParseException: Encountered " ";" "; "" at line 4, column 12.
+Was expecting:
+    <IDENTIFIER> ...
+    
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.generateParseException(PigScriptParser.java:907)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.jj_consume_token(PigScriptParser.java:836)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:194)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)

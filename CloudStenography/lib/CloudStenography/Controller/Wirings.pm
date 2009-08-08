@@ -251,7 +251,9 @@ sub illustrateWiring : JSONRPCPath('/illustrateWiring')
 
     $c->log->debug("PWD: " . $foo);
     
-    my $illustrate_string = $parser->illustrate_commands($commands);
+    my $illustrate_data = $parser->illustrate_commands($commands);
+    
+    $c->stash->{jsonrpc} = $illustrate_data;
 }
 
 1;
