@@ -20,6 +20,9 @@ my $PATH = '/Users/rjurney/Projects/cloudsteno/CloudStenography/pig-0.3.0/';
 our $letter = 'A';
 our %node_letters;
 
+open my $REAL_STDIN, "<&=".fileno(*STDIN);
+open my $REAL_STDOUT, ">>&=".fileno(*STDOUT);
+
 sub parse_json {
     
     my ( $self, $json, $mode ) = @_;
@@ -60,7 +63,7 @@ sub parse_json {
         $node_letters{$t} = $last_letter;
     }
     
-    #push @commands, "quit;\n";
+    push @commands, "quit;\n";
     
     return \@commands;
 }
@@ -185,24 +188,65 @@ sub illustrate_commands
 {
     my ( $self, $commands ) = @_;
     
-    my $cmd = '/Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local';
+    local *STDIN = $REAL_STDIN;   # restore the real ones so the filenos
+    local *STDOUT = $REAL_STDOUT; # are 0 and 1 for the env setup
+
+    my $cmd = '/Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local 2>/dev/null';
     my @out; my @err;
-    
-    warn "Commands: " . dump($commands);
     
     run3 $cmd, $commands, \@out, \@err;
     
-    #warn "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOutput: " . dump(@err);
-    
-    while(my $outline = pop @out)
+    # Simple debug.
+    foreach my $outline (@out)
     {
-        warn "Outline: $outline";
+        next if $outline =~ /^grunt/;
+        next if $outline =~ /^---------/;
+        next if $outline =~ /^\n/;
+        
+        warn $outline;
     }
     
-    #while(my $outline = pop @err)
-    #{
-    #    #warn "Err: $outline";
-    #}
+    # Go through, and categorize each by their data name.
+    my $data_names = {};
+    my $letter;
+    foreach my $outline (@out)
+    {
+        warn "Outline: $outline";
+        
+        next if $outline =~ /^grunt/;
+        next if $outline =~ /^---------/;
+        next if $outline =~ /^\n/;
+        
+        my @lineparts = split(/ \| /, $outline);
+        
+        foreach my $lp (@lineparts)
+        {
+            $lp =~ s/^\s+//;
+            $lp =~ s/\s+$//;
+        }
+        
+        if($lineparts[0] =~ /\^| \w/)
+        {
+            # We are a data definition row.  Get the letter and then skip for now.
+            $letter = $lineparts[0];
+            $letter =~ s/^\| //;
+        }
+        else
+        {
+            # Kill the first item.
+            shift(@lineparts);
+            
+            # Set array ref if not set.
+            #$data_names->{$letter} = [] unless $data_names->{$letter};
+            
+            # Push lineparts ref to this letter's data.
+            push @{$data_names->{$letter}}, \@lineparts;
+        }
+        
+        warn "Outline: " . dump(@lineparts);
+    }
+    
+    warn dump($data_names);
 }
 
 sub run_command
