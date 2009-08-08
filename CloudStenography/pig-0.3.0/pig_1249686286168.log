@@ -151,3 +151,53 @@ Was expecting one of:
 	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
 	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
 	... 8 more
+ERROR 1025: Found more than one match: A::bytes, C::bytes
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Found more than one match: A::bytes, C::bytes
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Found more than one match: A::bytes, C::bytes
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.AliasFieldOrSpec(QueryParser.java:6461)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.ColOrSpec(QueryParser.java:6302)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseEvalSpec(QueryParser.java:4474)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.UnaryExpr(QueryParser.java:4371)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.CastExpr(QueryParser.java:4317)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.MultiplicativeExpr(QueryParser.java:4226)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.AdditiveExpr(QueryParser.java:4152)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.InfixExpr(QueryParser.java:4118)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.PUnaryCond(QueryParser.java:1841)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.PAndCond(QueryParser.java:1777)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.POrCond(QueryParser.java:1721)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.PCond(QueryParser.java:1687)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.FilterClause(QueryParser.java:1535)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1263)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+Caused by: org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1025: Found more than one match: A::bytes, C::bytes
+	at org.apache.pig.impl.logicalLayer.schema.Schema.getField(Schema.java:726)
+	at org.apache.pig.impl.logicalLayer.schema.Schema.getPosition(Schema.java:1046)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.AliasFieldOrSpec(QueryParser.java:6452)
+	... 25 more
+ERROR 2999: Unexpected internal error. null
+java.lang.NullPointerException
+	at org.apache.pig.impl.plan.DepthFirstWalker.walk(DepthFirstWalker.java:47)
+	at org.apache.pig.impl.plan.PlanVisitor.visit(PlanVisitor.java:51)
+	at org.apache.pig.pen.ExampleGenerator.refineLogicalPlan(ExampleGenerator.java:207)
+	at org.apache.pig.pen.ExampleGenerator.compilePlan(ExampleGenerator.java:188)
+	at org.apache.pig.pen.ExampleGenerator.getExamples(ExampleGenerator.java:87)
+	at org.apache.pig.PigServer.getExamples(PigServer.java:717)
+	at org.apache.pig.tools.grunt.GruntParser.processIllustrate(GruntParser.java:532)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:195)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)

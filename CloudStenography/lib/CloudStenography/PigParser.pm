@@ -60,7 +60,7 @@ sub parse_json {
         $node_letters{$t} = $last_letter;
     }
     
-    push @commands, "quit;\n";
+    #push @commands, "quit;\n";
     
     return \@commands;
 }
@@ -186,13 +186,23 @@ sub illustrate_commands
     my ( $self, $commands ) = @_;
     
     my $cmd = '/Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local';
-    my ($in, $out, $err);
+    my @out; my @err;
     
-    warn dump($commands);
+    warn "Commands: " . dump($commands);
     
-    run3 $cmd, $commands, \$out, \$err;
+    run3 $cmd, $commands, \@out, \@err;
     
-    warn "Output: $out";
+    #warn "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOutput: " . dump(@err);
+    
+    while(my $outline = pop @out)
+    {
+        warn "Outline: $outline";
+    }
+    
+    #while(my $outline = pop @err)
+    #{
+    #    #warn "Err: $outline";
+    #}
 }
 
 sub run_command
