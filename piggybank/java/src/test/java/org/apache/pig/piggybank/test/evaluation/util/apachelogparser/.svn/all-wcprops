@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 142
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/evaluation/util/apachelogparser
+END
+TestSearchEngineExtractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/evaluation/util/apachelogparser/TestSearchEngineExtractor.java
+END
+TestDateExtractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/evaluation/util/apachelogparser/TestDateExtractor.java
+END
+TestHostExtractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 165
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/evaluation/util/apachelogparser/TestHostExtractor.java
+END
+TestSearchTermExtractor.java
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/test/java/org/apache/pig/piggybank/test/evaluation/util/apachelogparser/TestSearchTermExtractor.java
+END

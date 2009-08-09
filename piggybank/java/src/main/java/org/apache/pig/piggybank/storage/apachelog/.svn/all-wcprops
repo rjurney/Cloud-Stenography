@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/storage/apachelog
+END
+CommonLogLoader.java
+K 25
+svn:wc:ra_dav:version-url
+V 144
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/storage/apachelog/CommonLogLoader.java
+END
+CombinedLogLoader.java
+K 25
+svn:wc:ra_dav:version-url
+V 146
+/repos/asf/!svn/ver/782143/hadoop/pig/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/storage/apachelog/CombinedLogLoader.java
+END

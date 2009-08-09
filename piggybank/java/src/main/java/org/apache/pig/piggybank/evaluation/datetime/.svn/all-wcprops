@@ -1,0 +1,11 @@
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/repos/asf/!svn/ver/799485/hadoop/pig/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/evaluation/datetime
+END
+DiffDate.java
+K 25
+svn:wc:ra_dav:version-url
+V 139
+/repos/asf/!svn/ver/799485/hadoop/pig/trunk/contrib/piggybank/java/src/main/java/org/apache/pig/piggybank/evaluation/datetime/DiffDate.java
+END
