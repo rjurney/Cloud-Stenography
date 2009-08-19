@@ -25,14 +25,14 @@ var jsBox = {
       modules: [
 
       {
-         "name": "LOAD",
+         "name": "Load",
          "container": {
             "xtype": "WireIt.FormContainer",
             "title": "input",
             "fields": [{
                "type": "string",
                "inputParams": {
-                  "label": "filename",
+                  "label": "Filename",
                   "name": "filename",
                   "wirable": false
                }
@@ -54,7 +54,7 @@ var jsBox = {
       },
 
       {
-         "name": "STORE",
+         "name": "Store",
          "container": {
             "xtype": "WireIt.FormContainer",
             "title": "input",
@@ -81,17 +81,79 @@ var jsBox = {
             }]
          }
       },
-
+      
       {
-         "name": "FILTER",
+         "name": "Excel",
          "container": {
             "xtype": "WireIt.FormContainer",
             "title": "input",
             "fields": [{
                "type": "string",
                "inputParams": {
-                  "label": "filter",
+                  "label": "Filename",
+                  "name": "filename",
+                  "wirable": false
+               }
+            }],
+            "terminals": [{
+               "name": "out",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+
+               //"ddConfig": {
+               //   "type": "output",
+               //   "allowedTypes": ["*"]
+               //}
+            }]
+         }
+      },
+
+      {
+         "name": "Filter",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "input",
+            "fields": [{
+               "type": "string",
+               "inputParams": {
+                  "label": "Condition",
                   "name": "filter",
+                  "wirable": false
+               }
+            }],
+
+            "terminals": [{
+               "name": "out",
+               "direction": [0, 1],
+               "offsetPosition": {
+                  "left": 86,
+                  "bottom": -15
+               }
+            },
+            {
+               "name": "in",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+            }]
+         }
+      },
+      
+      {
+         "name": "Group",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "input",
+            "fields": [{
+               "type": "string",
+               "inputParams": {
+                  "label": "By",
+                  "name": "group",
                   "wirable": false
                }
             }],
@@ -116,7 +178,7 @@ var jsBox = {
       },
 
       {
-         "name": "JOIN",
+         "name": "Join",
          "container": {
             "xtype": "WireIt.FormContainer",
             "title": "Post",
@@ -170,9 +232,157 @@ var jsBox = {
             }]
          }
       },
+      
+      {
+         "name": "Foreach",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "Post",
+            "icon": "",
+
+            "fields": [
+
+            {
+               "type": "string",
+               "inputParams": {
+                  "label": "Generate",
+                  "name": "generate",
+                  "wirable": false
+               }
+            }],
+
+            "terminals": [{
+               "name": "out",
+               "direction": [0, 1],
+               "offsetPosition": {
+                  "left": 86,
+                  "bottom": -15
+               }
+            },
+            {
+               "name": "in",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+            }]
+         }
+      },
 
       {
-         "name": "comment",
+         "name": "Order",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "Post",
+            "icon": "",
+
+            "fields": [
+
+            {
+               "type": "string",
+               "inputParams": {
+                  "label": "By",
+                  "name": "order",
+                  "wirable": false
+               }
+            }],
+
+            "terminals": [{
+               "name": "out",
+               "direction": [0, 1],
+               "offsetPosition": {
+                  "left": 86,
+                  "bottom": -15
+               }
+            },
+            {
+               "name": "in",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+            }]
+         }
+      },
+      
+    {
+         "name": "Order Desc",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "Post",
+            "icon": "",
+
+            "fields": [
+
+            {
+               "type": "string",
+               "inputParams": {
+                  "label": "By",
+                  "name": "order",
+                  "wirable": false
+               }
+            }],
+
+            "terminals": [{
+               "name": "out",
+               "direction": [0, 1],
+               "offsetPosition": {
+                  "left": 86,
+                  "bottom": -15
+               }
+            },
+            {
+               "name": "in",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+            }]
+         }
+      },
+      
+     {
+         "name": "Limit",
+         "container": {
+            "xtype": "WireIt.FormContainer",
+            "title": "Post",
+            "icon": "",
+
+            "fields": [
+
+            {
+               "type": "string",
+               "inputParams": {
+                  "label": "Rows",
+                  "name": "limit",
+                  "wirable": false
+               }
+            }],
+
+            "terminals": [{
+               "name": "out",
+               "direction": [0, 1],
+               "offsetPosition": {
+                  "left": 86,
+                  "bottom": -15
+               }
+            },
+            {
+               "name": "in",
+               "direction": [0, -1],
+               "offsetPosition": {
+                  "left": 86,
+                  "top": -15
+               },
+            }]
+         }
+      },
+      
+      {
+         "name": "Comment",
          "container": {
             "xtype": "WireIt.FormContainer",
             "title": "Comment",

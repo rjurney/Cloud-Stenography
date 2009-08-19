@@ -1,0 +1,147 @@
+ERROR 1070: Could not resolve LogLoader using imports: [, org.apache.pig.builtin., com.yahoo.pig.yst.sds.ULT., org.apache.pig.impl.builtin.]
+java.lang.RuntimeException: Cannot instantiate:LogLoader
+	at org.apache.pig.impl.PigContext.instantiateFuncFromSpec(PigContext.java:454)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NonEvalFuncSpec(QueryParser.java:4768)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.LoadClause(QueryParser.java:1398)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1214)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.backend.executionengine.ExecException: ERROR 1070: Could not resolve LogLoader using imports: [, org.apache.pig.builtin., com.yahoo.pig.yst.sds.ULT., org.apache.pig.impl.builtin.]
+	at org.apache.pig.impl.PigContext.resolveClassName(PigContext.java:439)
+	at org.apache.pig.impl.PigContext.instantiateFuncFromSpec(PigContext.java:451)
+	... 15 more
+ERROR 1000: Error during parsing. Unrecognized alias A
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unrecognized alias A
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unrecognized alias A
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Alias(QueryParser.java:1180)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NestedExpr(QueryParser.java:923)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.FilterClause(QueryParser.java:1532)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1263)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+ERROR 1000: Error during parsing. Unrecognized alias B
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unrecognized alias B
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unrecognized alias B
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Alias(QueryParser.java:1180)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NestedExpr(QueryParser.java:923)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.GroupItem(QueryParser.java:2141)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.CogroupClause(QueryParser.java:2084)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1259)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+ERROR 1000: Error during parsing. Unrecognized alias C
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unrecognized alias C
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unrecognized alias C
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Alias(QueryParser.java:1180)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NestedExpr(QueryParser.java:923)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.ForEachClause(QueryParser.java:2729)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1301)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+ERROR 1000: Error during parsing. Unrecognized alias D
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unrecognized alias D
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unrecognized alias D
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Alias(QueryParser.java:1180)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NestedExpr(QueryParser.java:923)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.OrderClause(QueryParser.java:2261)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1275)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+ERROR 1000: Error during parsing. Unrecognized alias E
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unrecognized alias E
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unrecognized alias E
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Alias(QueryParser.java:1180)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.NestedExpr(QueryParser.java:923)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.LimitClause(QueryParser.java:1641)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1267)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:669)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more
+ERROR 1000: Error during parsing. Unable to find alias F
+org.apache.pig.impl.logicalLayer.FrontendException: ERROR 1000: Error during parsing. Unable to find alias F
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1017)
+	at org.apache.pig.PigServer$Graph.registerQuery(PigServer.java:961)
+	at org.apache.pig.PigServer.registerQuery(PigServer.java:377)
+	at org.apache.pig.tools.grunt.GruntParser.processPig(GruntParser.java:703)
+	at org.apache.pig.tools.pigscript.parser.PigScriptParser.parse(PigScriptParser.java:273)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:164)
+	at org.apache.pig.tools.grunt.GruntParser.parseStopOnError(GruntParser.java:140)
+	at org.apache.pig.tools.grunt.Grunt.run(Grunt.java:75)
+	at org.apache.pig.Main.main(Main.java:350)
+Caused by: org.apache.pig.impl.logicalLayer.parser.ParseException: Unable to find alias F
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.StoreClause(QueryParser.java:3282)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.BaseExpr(QueryParser.java:1338)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Expr(QueryParser.java:880)
+	at org.apache.pig.impl.logicalLayer.parser.QueryParser.Parse(QueryParser.java:693)
+	at org.apache.pig.impl.logicalLayer.LogicalPlanBuilder.parse(LogicalPlanBuilder.java:63)
+	at org.apache.pig.PigServer$Graph.parseQuery(PigServer.java:1011)
+	... 8 more

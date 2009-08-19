@@ -241,7 +241,7 @@ WireIt.WiringEditor.prototype = {
     helpButton.on("click", this.onHelp, this, true);
     
     var runButton = new widget.Button({ label: "Run", id:"WiringEditor-runButton", container: toolbar });
-    runButton.on("click", this.onRun, this, true);
+    runButton.on("click", this.onIllustrate, this, true);
     
     var illustrateButton = new widget.Button({ label: "Illustrate", id:"WiringEditor-illustrateButton", container: toolbar });
     illustrateButton.on("click", this.onIllustrate, this, true);
@@ -331,7 +331,7 @@ WireIt.WiringEditor.prototype = {
   * @method saveModuleSuccess
   */
  illustrateModuleSuccess: function(o) {
-    alert(o.result.toSource());
+    window.open('http://localhost:3000/excel');
  },
 
  /**

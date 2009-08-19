@@ -40,21 +40,21 @@ WireIt.Wire = function( terminal1, terminal2, parentEl, options) {
     */
    this.eventMouseClick = new YAHOO.util.CustomEvent("eventMouseClick");
 
-	/**
+   /**
     * Event that is fired when the mouse enter the wire
     * You can register this event with myWire.eventMouseIn.subscribe(function(e,params) { var wire = params[0], xy = params[1];}, scope);
     * @event eventMouseIn
     */
 	this.eventMouseIn = new YAHOO.util.CustomEvent("eventMouseIn");
 	
-	/**
+   /**
     * Event that is fired when the mouse exits the wire
     * You can register this event with myWire.eventMouseOut.subscribe(function(e,params) { var wire = params[0], xy = params[1];}, scope);
     * @event eventMouseOut
     */
 	this.eventMouseOut = new YAHOO.util.CustomEvent("eventMouseOut");
 	
-	/**
+   /**
     * Event that is fired when the mouse moves inside the wire
     * You can register this event with myWire.eventMouseMove.subscribe(function(e,params) { var wire = params[0], xy = params[1];}, scope);
     * @event eventMouseMove
@@ -217,12 +217,6 @@ YAHOO.lang.extend(WireIt.Wire, WireIt.CanvasElement, {
       ctxt.moveTo(bezierPoints[0][0],bezierPoints[0][1]);
       ctxt.bezierCurveTo(bezierPoints[1][0],bezierPoints[1][1],bezierPoints[2][0],bezierPoints[2][1],bezierPoints[3][0],bezierPoints[3][1]);
       ctxt.stroke();
-      
-      this.tt1 = new YAHOO.widget.Tooltip("tt1",  
-	                        { context:this,  
-	                          text:"My text was set using the 'text' configuration property" });
-      
-      //this.text = 'Testing 1 3 2';
    
    },
 
@@ -660,6 +654,17 @@ YAHOO.lang.extend(WireIt.Wire, WireIt.CanvasElement, {
 //   },
    onWireIn: function(x,y) {
       this.options.color = 'rgb(255, 0, 0)';
+      
+	// The wire tooltip
+	var wireInfos = WireIt.cn('div', {className: 'wireInfos'}, {display: 'none'}, "<div id='wireTooltip'></div>");
+	layer.el.appendChild(wireInfos);
+	// method to close the tooltip
+	var closeWireInfos = function(e) {
+		YAHOO.util.Event.stopEvent(e); 
+		wireInfos.style.display = "none";
+	};
+
+      
       this.redraw();
    },
    

@@ -126,33 +126,33 @@ sub parse_command
 
     my $command;
     
-    if($name eq 'LOAD')
+    if($name eq 'Load')
     {
         my $filename = $value->{filename};
         
         # Hard coded apache for now
         $command = "$letter = LOAD '$PATH$filename' USING LogLoader as (remoteAddr, remoteLogname, user, time, method, uri, proto, status, bytes, referer, userAgent);\n";
     }
-    elsif($name eq 'FILTER')
+    elsif($name eq 'Filter')
     {
         my $filter = $value->{filter};
 
-        $command = "$letter = FILTER $last_letter BY $filter;\n";
+        $command = "$letter = FILTER $last_letter BY ($filter);\n";
     }
-    elsif($name eq 'STORE')
+    elsif($name eq 'Store')
     {
         my $filename = $value->{filename};
         
         if($mode eq 'run')
         {
-            $command = "STORE $last_letter INTO '$filename';";
+            $command = "STORE $last_letter INTO '$filename';\n";
         }
         elsif($mode eq 'illustrate')
         {
             $command = "ILLUSTRATE $last_letter;";
         }
     }
-    elsif($name eq 'JOIN')
+    elsif($name eq 'Join')
     {
         my $cond_a = $value->{cond_a};
         my $cond_b = $value->{cond_b};
@@ -164,7 +164,48 @@ sub parse_command
         my $letter1 = $node_letters{$preds[0]};
         my $letter2 = $node_letters{$preds[1]};
         
-        $command = "$letter = JOIN $letter1 BY $cond_a, $letter2 by $cond_b;";
+        $command = "$letter = JOIN $letter1 BY $cond_a, $letter2 by $cond_b;\n";
+    }
+    elsif($name eq 'Group')
+    {
+        my $group = $value->{group};
+        
+        $command = "$letter = GROUP $last_letter BY $group;\n";
+    }
+    elsif($name eq 'Foreach')
+    {
+        my $generate = $value->{generate};
+        
+        $command = "$letter = FOREACH $last_letter GENERATE $generate;\n";
+    }
+    elsif($name eq 'Excel')
+    {
+        # If its to be excel, then... DUMP it, and read into a data structure, return as excel in a new window.
+        $command = "STORE $last_letter INTO 'excel/myoutput' USING PigStorage ('\\t');\n";
+        
+        
+    }
+    elsif($name eq 'Dump')
+    {
+        $command = "DUMP $last_letter;\n";
+    }
+    elsif($name eq 'Order')
+    {
+        my $order = $value->{order};
+        
+        $command = "$letter = ORDER $last_letter by $order DESC;\n";
+    }
+    elsif($name eq 'Order Desc')
+    {
+        my $order = $value->{order};
+        
+        $command = "$letter = ORDER $last_letter by $order DESC;\n";
+    }
+    elsif($name eq 'Limit')
+    {
+        my $limit = $value->{limit};
+        
+        $command = "$letter = LIMIT $last_letter $limit;\n";
     }
     
     $last_letter = $letter;
@@ -178,6 +219,7 @@ sub initialize_pig
     my ( $self ) = @_;
     
     my @commands =  (   # Hard coding apache for now
+                        "rm excel/myoutput;\n",
                         "register /Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/contrib/piggybank/java/piggybank.jar;\n",
                         "DEFINE LogLoader org.apache.pig.piggybank.storage.apachelog.CombinedLogLoader();\n",
                         "DEFINE DayExtractor org.apache.pig.piggybank.evaluation.util.apachelogparser.DateExtractor('yyyy-MM-dd');\n",
