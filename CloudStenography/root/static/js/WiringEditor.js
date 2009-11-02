@@ -241,7 +241,7 @@ WireIt.WiringEditor.prototype = {
     helpButton.on("click", this.onHelp, this, true);
     
     var runButton = new widget.Button({ label: "Run", id:"WiringEditor-runButton", container: toolbar });
-    runButton.on("click", this.onIllustrate, this, true);
+    runButton.on("click", this.onRun, this, true);
     
     var illustrateButton = new widget.Button({ label: "Illustrate", id:"WiringEditor-illustrateButton", container: toolbar });
     illustrateButton.on("click", this.onIllustrate, this, true);
@@ -300,7 +300,7 @@ WireIt.WiringEditor.prototype = {
   * @method saveModuleSuccess
   */
  runModuleSuccess: function(o) {
-    alert("Run !");
+    window.open('http://localhost:3000/excel');
  },
 
  /**
@@ -331,7 +331,8 @@ WireIt.WiringEditor.prototype = {
   * @method saveModuleSuccess
   */
  illustrateModuleSuccess: function(o) {
-    window.open('http://localhost:3000/excel');
+    // Have to take the JSON output, and annotate each wire with its illustrate data.
+    
  },
 
  /**

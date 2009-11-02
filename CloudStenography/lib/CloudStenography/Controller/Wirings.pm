@@ -206,17 +206,17 @@ sub runWiring : JSONRPCPath('/runWiring')
     my $language = $c->req->param('language');
     my $working = $c->req->param('working');
     
-    my $path = qx|/bin/pwd|;
+    my $parser = CloudStenography::PigParser->new();
     
-    my $wiring = decode_json($working);
+    my $commands = $parser->parse_json($working, 'run');
     
-    $c->log->debug(dump($wiring));
+    $c->log->debug(dump($commands));
     
-    my $properties = $wiring->{properties};
-    my $modules = $wiring->{modules};
-    my $links = $wiring->{wires};
+    my $results = $parser->run_commands($commands);
     
+    $c->log->debug("Run results: " . dump($results));
     
+    $c->stash->{jsonrpc} = $results;
 }
 
 =head2 illustrateWiring
@@ -245,13 +245,11 @@ sub illustrateWiring : JSONRPCPath('/illustrateWiring')
     
     my $commands = $parser->parse_json($working, 'illustrate');
     
-    $c->log->debug(dump($commands));
+    $c->log->debug("Illustrate commands: " . dump($commands));
     
-    my $foo = qx|/bin/pwd|;
-
-    $c->log->debug("PWD: " . $foo);
+    my $illustrate_data = $parser->run_commands($commands);
     
-    my $illustrate_data = $parser->illustrate_commands($commands);
+    $c->log->debug("Illustrate data: " . dump($illustrate_data));
     
     $c->stash->{jsonrpc} = $illustrate_data;
 }

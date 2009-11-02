@@ -126,6 +126,8 @@ sub parse_command
 
     my $command;
     
+    warn "\n\n\n\nMode: $mode\n\n\n\n";
+    
     if($name eq 'Load')
     {
         my $filename = $value->{filename};
@@ -226,14 +228,14 @@ sub initialize_pig
                     );
 }
 
-sub illustrate_commands
+sub run_commands
 {
     my ( $self, $commands ) = @_;
     
     local *STDIN = $REAL_STDIN;   # restore the real ones so the filenos
     local *STDOUT = $REAL_STDOUT; # are 0 and 1 for the env setup
 
-    my $cmd = '/Users/peyomp/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local 2>/dev/null';
+    my $cmd = '/Users/rjurney/Projects/cloudsteno/CloudStenography/pig-0.3.0/bin/pig -x local 2>/dev/null';
     my @out; my @err;
     
     run3 $cmd, $commands, \@out, \@err;
@@ -290,13 +292,6 @@ sub illustrate_commands
     
     warn dump($data_names);
     return $data_names;
-}
-
-sub run_command
-{
-    my ( $self, $commands ) = @_;
-    
-    
 }
 
 1;
