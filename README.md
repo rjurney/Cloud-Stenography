@@ -9,8 +9,11 @@ It is a huge hack - my specialty. If I were to do it again, I would use Ruby, I 
 This project was made possible by:
 
 [Catalyst](http://catalystframework.org)
+
 [WireIT](http://javascript.neyric.com/wireit/)
+
 [The WireIT Wiring Editor](http://javascript.neyric.com/wireit/examples/WiringEditor/)
+
 [PigPen](http://wiki.apache.org/pig/PigPen)
 
 With assistance from [Alan Gates](http://www.linkedin.com/pub/alan-gates/2/45a/181) and [Eric Abouaf](http://fr.linkedin.com/in/ericabouaf)
